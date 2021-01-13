@@ -31,7 +31,7 @@ public class HomeController {
      * 方法调用前，SpringMVC 会自动实例化 Model 和 Page，并将 Page 注入 Model，
      * 所以，在 thymeleaf 中可以直接访问 Page 对象中的数据，不需要再 model.addAttribute() 方法。
      */
-    @GetMapping("/index")
+    @GetMapping({"/index", "/"})
     public String index(Model model, Page page) {
         page.setRows(discussPostService.selectDiscussPostRows(0));
         page.setPath("/index");
@@ -41,7 +41,7 @@ public class HomeController {
         for (DiscussPost post : discussPosts) {
             Map<String, Object> map = new HashMap<>();
             map.put("post", post);
-            User user = userService.selectUserById(post.getUserId());
+            User user = userService.selectById(post.getUserId());
             map.put("user", user);
             list.add(map);
         }

@@ -4,7 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: toor
-
+  # thymeleaf
   thymeleaf:
     cache: false
   # MailProperties
@@ -24,13 +24,19 @@ spring:
 
 server:
   port: 8080
+  servlet:
+    context-path: /
 
 mybatis:
   configuration:
     # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+    # 自动生成 id
     use-generated-keys: true
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.community.entity
 
-
+# community
+community:
+  path:
+    domain: http://localhost:8080

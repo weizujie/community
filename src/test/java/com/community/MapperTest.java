@@ -33,7 +33,7 @@ class MapperTest {
 
     @Test
     public void UserTest() {
-        User user = userMapper.selectUserById(11);
+        User user = userMapper.selectById(11);
         System.out.println(user.toString());
     }
 
