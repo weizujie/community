@@ -7,6 +7,20 @@ spring:
 
   thymeleaf:
     cache: false
+  # MailProperties
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: weizujie@vip.qq.com
+    # 授权码，并非登录密码
+    password: nuzudxbzwjmjbahf
+    default-encoding: UTF-8
+    # 开启 ssl，不然会报 503 错误
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
 
 server:
   port: 8080
@@ -17,7 +31,6 @@ mybatis:
     map-underscore-to-camel-case: true
     use-generated-keys: true
   mapper-locations: classpath:mapper/*Mapper.xml
-  # ����
   type-aliases-package: com.community.entity
 
 
