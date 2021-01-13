@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: toor
+
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8080
+
+mybatis:
+  configuration:
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+  mapper-locations: classpath:mapper/*Mapper.xml
+  # ±ðÃû
+  type-aliases-package: com.community.entity
+
+
