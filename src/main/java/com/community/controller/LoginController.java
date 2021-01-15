@@ -22,16 +22,25 @@ public class LoginController implements CommunityConstant {
     }
 
 
+    /**
+     * 跳转到用户登录页面
+     */
     @GetMapping("/login")
     public String toLogin() {
         return "site/login";
     }
 
+    /**
+     * 跳转到用户注册界面
+     */
     @GetMapping("/register")
     public String toRegister() {
         return "site/register";
     }
 
+    /**
+     * 用户注册
+     */
     @PostMapping("/register")
     public String register(Model model, User user) {
         Map<String, Object> map = userService.register(user);
@@ -48,8 +57,12 @@ public class LoginController implements CommunityConstant {
         }
     }
 
+    /**
+     * 邮箱激活账号
+     */
     @GetMapping("/activation/{userId}/{code}")
     public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code) {
+        // 根据用户 id 查询该用户的状态
         int result = userService.activation(userId, code);
         if (result == ACTIVATION_SUCCESS) {
             model.addAttribute("msg", "激活成功，你的账号可以正常使用!");

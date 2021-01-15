@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService, CommunityConstant {
      */
     @Override
     public User selectByUsername(String username) {
-        return selectByUsername(username);
+        return userMapper.selectByUsername(username);
     }
 
     /**
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService, CommunityConstant {
      */
     @Override
     public User selectByEmail(String email) {
-        return selectByEmail(email);
+        return userMapper.selectByEmail(email);
     }
 
     /**
