@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 首页 前端控制器
+ */
 @Controller
 public class HomeController {
 

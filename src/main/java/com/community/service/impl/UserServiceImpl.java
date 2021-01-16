@@ -3,8 +3,8 @@ package com.community.service.impl;
 import com.community.entity.User;
 import com.community.mapper.UserMapper;
 import com.community.service.UserService;
-import com.community.utils.CommunityConstant;
-import com.community.utils.CommunityUtil;
+import com.community.utils.Constant;
+import com.community.utils.CommonUtil;
 import com.community.utils.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserServiceImpl implements UserService, CommunityConstant {
+public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final MailClient mailClient;
@@ -113,11 +113,11 @@ public class UserServiceImpl implements UserService, CommunityConstant {
             return map;
         }
         // 注册用户
-        user.setSalt(CommunityUtil.generateUUID().substring(0, 5));
-        user.setPassword(CommunityUtil.md5(user.getPassword() + user.getSalt()));
+        user.setSalt(CommonUtil.generateUUID().substring(0, 5));
+        user.setPassword(CommonUtil.md5(user.getPassword() + user.getSalt()));
         user.setType(0);
         user.setStatus(0);
-        user.setActivationCode(CommunityUtil.generateUUID());
+        user.setActivationCode(CommonUtil.generateUUID());
         user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
@@ -141,12 +141,12 @@ public class UserServiceImpl implements UserService, CommunityConstant {
     public int activation(int userId, String code) {
         User dbUser = userMapper.selectById(userId);
         if (dbUser.getStatus() == 1) {
-            return ACTIVATION_REPEAT;
+            return Constant.ACTIVATION_REPEAT;
         } else if (dbUser.getActivationCode().equals(code)) {
             userMapper.updateStatus(userId, 1);
-            return ACTIVATION_SUCCESS;
+            return Constant.ACTIVATION_SUCCESS;
         } else {
-            return ACTIVATION_FAILURE;
+            return Constant.ACTIVATION_FAILURE;
         }
     }
 }

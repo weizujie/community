@@ -97,8 +97,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <img src="../img/captcha.png" style="width:100px;height:40px;" class="mr-2"/>
-                        <a href="javascript:;" class="font-size-12 align-bottom">刷新验证码</a>
+                        <img th:src="@{/kaptcha}" style="width:100px;height:40px;" id="kaptcha" onclick="refresh_kaptcha()" class="mr-2" alt=""/>
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -187,5 +186,12 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/global.js}"></script>
+<script>
+    // 刷新验证码
+    function refresh_kaptcha() {
+        const path = "/kaptcha?p=" + Math.random();
+        $("#kaptcha").attr("src", path);
+    }
+</script>
 </body>
 </html>

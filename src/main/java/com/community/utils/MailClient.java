@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * 用于发送邮件的工具类
+ */
 @Component
 public class MailClient {
 
