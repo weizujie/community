@@ -5,14 +5,17 @@ import com.community.entity.User;
 import com.community.service.UserService;
 import com.community.utils.Constant;
 import com.google.code.kaptcha.Producer;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -33,7 +36,6 @@ public class LoginController {
         this.kaptchaProducer = kaptchaProducer;
     }
 
-
     /**
      * 跳转到用户登录页面
      */
@@ -41,37 +43,6 @@ public class LoginController {
     public String toLogin() {
         return "site/login";
     }
-
-    /**
-     * 获取验证码
-     */
-    @GetMapping("/kaptcha")
-    public void getKaptcha(HttpServletResponse response, HttpSession session) {
-        // 生成验证码
-        String text = kaptchaProducer.createText();
-        BufferedImage image = kaptchaProducer.createImage(text);
-        // 将验证码存入 session
-        session.setAttribute("kaptcha", text);
-        // 将图片输出给浏览器
-        response.setContentType("image/png");
-        try {
-            // 该流不用关闭，Spring 会帮我们关
-            ServletOutputStream outputStream = response.getOutputStream();
-            ImageIO.write(image, "png", outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 用户登录
-     */
-    @PostMapping("/login")
-    public String login() {
-
-        return null;
-    }
-
 
     /**
      * 跳转到用户注册界面
@@ -118,6 +89,65 @@ public class LoginController {
             model.addAttribute("target", "/index");
         }
         return "site/operate-result";
+    }
+
+    /**
+     * 获取验证码
+     */
+    @GetMapping("/kaptcha")
+    public void getKaptcha(HttpServletResponse response, HttpSession session) {
+        // 生成验证码
+        String text = kaptchaProducer.createText();
+        BufferedImage image = kaptchaProducer.createImage(text);
+        // 将验证码存入 session
+        session.setAttribute("kaptcha", text);
+        // 将图片输出给浏览器
+        response.setContentType("image/png");
+        try {
+            // 该流不用关闭，Spring 会帮我们关
+            ServletOutputStream outputStream = response.getOutputStream();
+            ImageIO.write(image, "png", outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("/login")
+    public String login(String username, String password, String code, boolean rememberMe,
+                        Model model, HttpSession session, HttpServletResponse response) {
+        // 判断验证码
+        String kaptcha = (String) session.getAttribute("kaptcha");
+        if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
+            model.addAttribute("CodeMessage", "验证码错误!");
+            return "site/login";
+        }
+
+        // 检查账号和密码
+        int expired = rememberMe ? Constant.REMEMBERME_EXPIRED_SECONDS : Constant.DEFAULT_EXPIRED_SECONDS;
+        Map<String, Object> result = userService.login(username, password, expired);
+        if (result.containsKey("ticket")) {
+            Cookie cookie = new Cookie("ticket", result.get("ticket").toString());
+            cookie.setPath("/");
+            cookie.setMaxAge(expired);
+            response.addCookie(cookie);
+            return "redirect:/index";
+        } else {
+            model.addAttribute("UsernameMessage", result.get("UsernameMessage"));
+            model.addAttribute("PasswordMessage", result.get("PasswordMessage"));
+            return "site/login";
+        }
+    }
+
+    /**
+     * 用户退出
+     */
+    @GetMapping("/logout")
+    public String logout(@CookieValue("ticket") String ticket) {
+        userService.logout(ticket);
+        return "redirect:/login";
     }
 
 }

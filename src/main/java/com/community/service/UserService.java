@@ -25,7 +25,7 @@ public interface UserService {
     /**
      * 添加用户
      */
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      * 注册用户
@@ -36,12 +36,20 @@ public interface UserService {
     /**
      * 修改用户状态
      */
-    void updateStatus(int userId, int status);
+    int updateStatus(int userId, int status);
 
     /**
      * 激活用户
      */
     int activation(int userId, String code);
 
+    /**
+     * 用户登录
+     */
+    Map<String, Object> login(String username, String password, int expired);
 
+    /**
+     * 用户退出
+     */
+    int logout(String ticket);
 }

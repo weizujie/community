@@ -26,7 +26,7 @@ public interface UserMapper {
     /**
      * 添加用户
      */
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      * 注册用户
@@ -37,11 +37,6 @@ public interface UserMapper {
     /**
      * 修改用户状态
      */
-    void updateStatus(@Param("id") int userId, int status);
-
-    /**
-     * 激活用户
-     */
-    int activation(int userId, String code);
+    int updateStatus(@Param("id") int userId, int status);
 
 }

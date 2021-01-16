@@ -1,10 +1,12 @@
 package com.community.service.impl;
 
+import com.community.entity.LoginTicket;
 import com.community.entity.User;
+import com.community.mapper.LoginTicketMapper;
 import com.community.mapper.UserMapper;
 import com.community.service.UserService;
-import com.community.utils.Constant;
 import com.community.utils.CommonUtil;
+import com.community.utils.Constant;
 import com.community.utils.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,11 +25,13 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final MailClient mailClient;
     private final TemplateEngine templateEngine;
+    private final LoginTicketMapper loginTicketMapper;
 
-    public UserServiceImpl(UserMapper userMapper, MailClient mailClient, TemplateEngine templateEngine) {
+    public UserServiceImpl(UserMapper userMapper, MailClient mailClient, TemplateEngine templateEngine, LoginTicketMapper loginTicketMapper) {
         this.userMapper = userMapper;
         this.mailClient = mailClient;
         this.templateEngine = templateEngine;
+        this.loginTicketMapper = loginTicketMapper;
     }
 
     @Value("${community.path.domain}")
@@ -65,8 +69,8 @@ public class UserServiceImpl implements UserService {
      * 添加用户
      */
     @Override
-    public void insertUser(User user) {
-        userMapper.insertUser(user);
+    public int insertUser(User user) {
+        return userMapper.insertUser(user);
     }
 
 
@@ -74,8 +78,8 @@ public class UserServiceImpl implements UserService {
      * 修改用户状态
      */
     @Override
-    public void updateStatus(int userId, int status) {
-        userMapper.updateStatus(userId, status);
+    public int updateStatus(int userId, int status) {
+        return userMapper.updateStatus(userId, status);
     }
 
     /**
@@ -149,4 +153,58 @@ public class UserServiceImpl implements UserService {
             return Constant.ACTIVATION_FAILURE;
         }
     }
+
+    /**
+     * 用户登录
+     *
+     * @param username 登录账号
+     * @param password 明文密码。数据库里存的是加密后的密码
+     * @param expired  凭证过期时间
+     */
+    @Override
+    public Map<String, Object> login(String username, String password, int expired) {
+        Map<String, Object> map = new HashMap<>();
+
+        // 空值判断
+        if (StringUtils.isBlank(username)) map.put("UsernameMessage", "账号不能为空!");
+        if (StringUtils.isBlank(password)) map.put("PasswordMessage", "密码不能为空!");
+
+        // 账号验证
+        User dbUser = userMapper.selectByUsername(username);
+        if (dbUser == null) {
+            map.put("UsernameMessage", "该账号不存在!");
+            return map;
+        }
+        if (dbUser.getStatus() == 0) {
+            map.put("UsernameMessage", "该账号未激活!");
+            return map;
+        }
+        // 密码验证
+        password = CommonUtil.md5(password + dbUser.getSalt());
+        if (!dbUser.getPassword().equals(password)) {
+            map.put("PasswordMessage", "密码错误!");
+            return map;
+        }
+
+        // 生成登录凭证
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(dbUser.getId());
+        loginTicket.setTicket(CommonUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expired * 1000L));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+        map.put("ticket", loginTicket.getTicket());
+
+        return map;
+    }
+
+    /**
+     * 用户退出
+     */
+    @Override
+    public int logout(String ticket) {
+        return loginTicketMapper.updateStatus(ticket, 1);
+    }
+
 }
