@@ -58,4 +58,10 @@ public interface UserService {
      * 根据 ticket 查询用户
      */
     LoginTicket selectByTicket(String ticket);
+
+    /**
+     * 更新用户头像
+     */
+    int updateHeaderUrl(int userId, String avatarUrl);
+
 }

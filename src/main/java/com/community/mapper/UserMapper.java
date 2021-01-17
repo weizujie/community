@@ -10,12 +10,12 @@ public interface UserMapper {
     /**
      * 根据用户 id 查询用户
      */
-    User selectById(@Param("id") int id);
+    User selectById(int id);
 
     /**
      * 根据用户名查询用户
      */
-    User selectByUsername(@Param("username") String username);
+    User selectByUsername(String username);
 
 
     /**
@@ -37,6 +37,10 @@ public interface UserMapper {
     /**
      * 修改用户状态
      */
-    int updateStatus(@Param("id") int userId, int status);
+    int updateStatus(int id, int status);
 
+    /**
+     * 更新用户头像
+     */
+    int updateHeaderUrl(int id, String headerUrl);
 }

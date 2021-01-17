@@ -40,3 +40,4 @@ mybatis:
 community:
   path:
     domain: http://localhost:8080
+    upload: E:/Code/Java/SpringBoot/community/upload

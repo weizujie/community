@@ -7,6 +7,7 @@ import com.community.mapper.UserMapper;
 import com.community.service.UserService;
 import com.community.utils.CommonUtil;
 import com.community.utils.Constant;
+import com.community.utils.HostHolder;
 import com.community.utils.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,12 +27,14 @@ public class UserServiceImpl implements UserService {
     private final MailClient mailClient;
     private final TemplateEngine templateEngine;
     private final LoginTicketMapper loginTicketMapper;
+    private final HostHolder hostHolder;
 
-    public UserServiceImpl(UserMapper userMapper, MailClient mailClient, TemplateEngine templateEngine, LoginTicketMapper loginTicketMapper) {
+    public UserServiceImpl(UserMapper userMapper, MailClient mailClient, TemplateEngine templateEngine, LoginTicketMapper loginTicketMapper, HostHolder hostHolder) {
         this.userMapper = userMapper;
         this.mailClient = mailClient;
         this.templateEngine = templateEngine;
         this.loginTicketMapper = loginTicketMapper;
+        this.hostHolder = hostHolder;
     }
 
     @Value("${community.path.domain}")
@@ -73,13 +76,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.insertUser(user);
     }
 
-
     /**
      * 修改用户状态
      */
     @Override
-    public int updateStatus(int userId, int status) {
-        return userMapper.updateStatus(userId, status);
+    public int updateStatus(int id, int status) {
+        return userMapper.updateStatus(id, status);
     }
 
     /**
@@ -142,12 +144,12 @@ public class UserServiceImpl implements UserService {
      * 激活用户
      */
     @Override
-    public int activation(int userId, String code) {
-        User dbUser = userMapper.selectById(userId);
+    public int activation(int id, String code) {
+        User dbUser = userMapper.selectById(id);
         if (dbUser.getStatus() == 1) {
             return Constant.ACTIVATION_REPEAT;
         } else if (dbUser.getActivationCode().equals(code)) {
-            userMapper.updateStatus(userId, 1);
+            userMapper.updateStatus(id, 1);
             return Constant.ACTIVATION_SUCCESS;
         } else {
             return Constant.ACTIVATION_FAILURE;
@@ -215,4 +217,11 @@ public class UserServiceImpl implements UserService {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
+    /**
+     * 更新用户头像
+     */
+    @Override
+    public int updateHeaderUrl(int id, String headerUrl) {
+        return userMapper.updateHeaderUrl(id, headerUrl);
+    }
 }

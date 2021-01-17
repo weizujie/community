@@ -39,7 +39,14 @@
     </insert>
 
     <update id="updateStatus">
-        UPDATE user SET status = #{status} WHERE id = #{id}
+        UPDATE user
+        SET status = #{status}
+        WHERE id = #{id}
     </update>
 
+    <update id="updateHeaderUrl">
+        UPDATE user
+        SET header_url = #{headerUrl}
+        WHERE id = #{id}
+    </update>
 </mapper>
