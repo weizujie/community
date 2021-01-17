@@ -1,7 +1,6 @@
 package com.community.mapper;
 
 import com.community.entity.DiscussPost;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

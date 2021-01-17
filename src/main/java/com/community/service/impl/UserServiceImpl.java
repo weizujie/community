@@ -207,4 +207,12 @@ public class UserServiceImpl implements UserService {
         return loginTicketMapper.updateStatus(ticket, 1);
     }
 
+    /**
+     * 根据 ticket 查询用户
+     */
+    @Override
+    public LoginTicket selectByTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
 }

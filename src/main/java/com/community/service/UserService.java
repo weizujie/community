@@ -1,5 +1,6 @@
 package com.community.service;
 
+import com.community.entity.LoginTicket;
 import com.community.entity.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +53,9 @@ public interface UserService {
      * 用户退出
      */
     int logout(String ticket);
+
+    /**
+     * 根据 ticket 查询用户
+     */
+    LoginTicket selectByTicket(String ticket);
 }
