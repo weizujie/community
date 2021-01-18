@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.User;
 import com.community.service.UserService;
 import com.community.utils.CommonUtil;
@@ -39,17 +40,28 @@ public class UserController {
         this.hostHolder = hostHolder;
     }
 
-
+    /**
+     * 跳转到用户个人页面
+     */
+    @LoginRequired
     @GetMapping("/profile")
     public String toProfile() {
         return "site/profile";
     }
 
+    /**
+     * 跳转到用户设置页面
+     */
+    @LoginRequired
     @GetMapping("/setting")
     public String toSetting() {
         return "site/setting";
     }
 
+    /**
+     * 更新头像
+     */
+    @LoginRequired
     @PostMapping("/upload")
     public String uploadAvatar(MultipartFile headerUrl, Model model) {
 
@@ -85,6 +97,9 @@ public class UserController {
         return "redirect:/index";
     }
 
+    /**
+     * 展示头像
+     */
     @GetMapping("/upload/{filename}")
     public void showAvatar(@PathVariable String filename, HttpServletResponse response) {
         // 服务器存放路径
@@ -107,6 +122,10 @@ public class UserController {
 
     }
 
+    /**
+     * 密码修改
+     */
+    @LoginRequired
     @PostMapping("/password")
     public String changePassword(Model model, String oldPassword, String newPassword, String confirmPassword, @CookieValue String ticket) {
         // 当前登录用户
