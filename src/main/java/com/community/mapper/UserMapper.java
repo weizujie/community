@@ -43,4 +43,9 @@ public interface UserMapper {
      * 更新用户头像
      */
     int updateHeaderUrl(int id, String headerUrl);
+
+    /**
+     * 修改密码
+     */
+    int changePassword(int id, String password);
 }

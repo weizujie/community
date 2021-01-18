@@ -107,4 +107,20 @@ public class UserController {
 
     }
 
+    @PostMapping("/password")
+    public String changePassword(Model model, String oldPassword, String newPassword, String confirmPassword, @CookieValue String ticket) {
+        // 当前登录用户
+        User curUser = hostHolder.getUser();
+        Map<String, Object> map = userService.changePassword(curUser.getId(), oldPassword, newPassword, confirmPassword);
+        // map 为空则修改成功
+        if (map.isEmpty()) {
+            userService.logout(ticket);
+            return "redirect:/login";
+        }
+        model.addAttribute("OldPasswordMessage", map.get("OldPasswordMessage"));
+        model.addAttribute("NewPasswordMessage", map.get("NewPasswordMessage"));
+        model.addAttribute("ConfirmPasswordMessage", map.get("ConfirmPasswordMessage"));
+        return "site/setting";
+    }
+
 }

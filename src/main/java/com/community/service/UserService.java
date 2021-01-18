@@ -64,4 +64,6 @@ public interface UserService {
      */
     int updateHeaderUrl(int userId, String avatarUrl);
 
+
+    Map<String, Object> changePassword(int id, String oldPassword, String newPassword, String confirmPassword);
 }

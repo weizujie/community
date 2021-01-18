@@ -46,8 +46,9 @@
                     <label for="old-password" class="col-sm-2 col-form-label text-right">原密码:</label>
                     <div class="col-sm-10">
                         <input type="password"
-                               th:class="|form-control ${OldPasswordMessage!=null?'is-invaild':''}|"
+                               th:class="|form-control ${OldPasswordMessage!=null?'is-invalid':''}|"
                                id="old-password" name="oldPassword"
+                               th:value="${param.oldPassword}"
                                placeholder="请输入原始密码!" required>
                         <div class="invalid-feedback" th:text="${OldPasswordMessage}"></div>
                     </div>
@@ -56,8 +57,9 @@
                     <label for="new-password" class="col-sm-2 col-form-label text-right">新密码:</label>
                     <div class="col-sm-10">
                         <input type="password"
-                               th:class="|form-control ${NewPasswordMessage!=null?'is-invaild':''}|"
+                               th:class="|form-control ${NewPasswordMessage!=null?'is-invalid':''}|"
                                id="new-password" name="newPassword"
+                               th:value="${param.newPassword}"
                                placeholder="请输入新的密码!" required>
                         <div class="invalid-feedback" th:text="${NewPasswordMessage}"></div>
                     </div>
@@ -66,11 +68,13 @@
                     <label for="confirm-password" class="col-sm-2 col-form-label text-right">确认密码:</label>
                     <div class="col-sm-10">
                         <input type="password"
-                               th:class="|form-control ${ConfirmNewPasswordMessage!=null?'is-invaild':''}|"
-                               id="confirm-password" name="confirmNewPassword"
+                               th:class="|form-control ${ConfirmPasswordMessage!=null?'is-invalid':''}|"
+                               id="confirm-password"
+                               th:value="${param.confirmPassword}"
+                               name="confirmPassword"
                                placeholder="再次输入新密码!"
                                required>
-                        <div class="invalid-feedback" th:text="${ConfirmNewPasswordMessage}"></div>
+                        <div class="invalid-feedback" th:text="${ConfirmPasswordMessage}"></div>
                     </div>
                 </div>
                 <div class="form-group row mt-4">

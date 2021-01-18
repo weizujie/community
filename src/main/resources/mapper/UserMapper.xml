@@ -49,4 +49,10 @@
         SET header_url = #{headerUrl}
         WHERE id = #{id}
     </update>
+
+    <update id="changePassword">
+        UPDATE user
+        SET password = #{password}
+        WHERE id = #{id}
+    </update>
 </mapper>

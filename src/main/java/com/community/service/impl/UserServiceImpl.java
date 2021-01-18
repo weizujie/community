@@ -224,4 +224,37 @@ public class UserServiceImpl implements UserService {
     public int updateHeaderUrl(int id, String headerUrl) {
         return userMapper.updateHeaderUrl(id, headerUrl);
     }
+
+    /**
+     * 修改密码
+     */
+    @Override
+    public Map<String, Object> changePassword(int id, String oldPassword, String newPassword, String confirmPassword) {
+        Map<String, Object> map = new HashMap<>();
+        // 获取当前登录用户
+        User curUser = hostHolder.getUser();
+        // 密码判断
+        if (StringUtils.isBlank(oldPassword)) {
+            map.put("OldPasswordMessage", "原密码不能为空!");
+            return map;
+        }
+        if (StringUtils.isBlank(newPassword)) {
+            map.put("NewPasswordMessage", "新密码不能为空!");
+            return map;
+        }
+        if (!newPassword.equals(confirmPassword)) {
+            map.put("ConfirmPasswordMessage", "两次密码输入不一致!");
+            return map;
+        }
+        // 判断用户输入的原密码（明文）是否正确
+        String inputPassword = CommonUtil.md5(oldPassword + curUser.getSalt());
+        if (!inputPassword.equals(curUser.getPassword())) {
+            map.put("OldPasswordMessage", "原密码错误!");
+            return map;
+        }
+        // 修改当前登录用户密码
+        newPassword = CommonUtil.md5(newPassword + curUser.getSalt());
+        userMapper.changePassword(curUser.getId(), newPassword);
+        return map;
+    }
 }
