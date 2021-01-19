@@ -57,5 +57,12 @@ public class DiscussPostServiceImpl implements DiscussPostService {
         return discussPostMapper.insertDiscussPost(discussPost);
     }
 
+    /**
+     * 查询帖子详情
+     */
+    @Override
+    public DiscussPost selectDiscussPostById(int id) {
+        return discussPostMapper.selectDiscussPostById(id);
+    }
 
 }

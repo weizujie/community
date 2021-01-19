@@ -129,13 +129,13 @@
             <!-- 帖子列表 -->
             <ul class="list-unstyled">
                 <li class="media pb-3 pt-3 mb-3 border-bottom" th:each="map:${discussPosts}">
-                    <a href="site/profile.html">
+                    <a th:href="@{/user/profile}">
                         <img th:src="${map.user.headerUrl}" class="mr-4 rounded-circle" alt="用户头像"
                              style="width:50px;height:50px;">
                     </a>
                     <div class="media-body">
                         <h6 class="mt-0 mb-3">
-                            <a href="#" th:utext="${map.post.title}"></a>
+                            <a th:href="@{|/post/detail/${map.post.id}|}" th:utext="${map.post.title}"></a>
                             <span class="badge badge-secondary bg-primary" th:if="${map.post.type==1}">置顶</span>
                             <span class="badge badge-secondary bg-danger" th:if="${map.post.status==1}">精华</span>
                         </h6>
