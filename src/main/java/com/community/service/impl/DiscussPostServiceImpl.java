@@ -5,6 +5,7 @@ import com.community.entity.DiscussPost;
 import com.community.mapper.DiscussPostMapper;
 import com.community.service.DiscussPostService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -39,6 +40,21 @@ public class DiscussPostServiceImpl implements DiscussPostService {
     @Override
     public int selectDiscussPostRows(int userId) {
         return discussPostMapper.selectDiscussPostRows(userId);
+    }
+
+    /**
+     * 发布帖子
+     */
+    @Override
+    public int insertDiscussPost(DiscussPost discussPost) {
+        if (discussPost == null) {
+            throw new IllegalArgumentException("参数不能为空!");
+        }
+        // 转义 HTML 标签
+        discussPost.setTitle(HtmlUtils.htmlEscape(discussPost.getTitle()));
+        discussPost.setContent(HtmlUtils.htmlEscape(discussPost.getContent()));
+
+        return discussPostMapper.insertDiscussPost(discussPost);
     }
 
 

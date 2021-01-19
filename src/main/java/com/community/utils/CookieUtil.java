@@ -3,6 +3,10 @@ package com.community.utils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Cookie 工具类
+ * 用来获取 cookie 里的值
+ */
 public class CookieUtil {
 
     public static String getValue(HttpServletRequest request, String name) {

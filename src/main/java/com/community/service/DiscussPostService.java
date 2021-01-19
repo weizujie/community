@@ -27,4 +27,8 @@ public interface DiscussPostService {
     int selectDiscussPostRows(int userId);
 
 
+    /**
+     * 发布帖子
+     */
+    int insertDiscussPost(DiscussPost discussPost);
 }

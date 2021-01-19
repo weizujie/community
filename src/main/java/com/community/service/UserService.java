@@ -1,5 +1,6 @@
 package com.community.service;
 
+import com.community.entity.DiscussPost;
 import com.community.entity.LoginTicket;
 import com.community.entity.User;
 import org.apache.ibatis.annotations.Param;
@@ -64,6 +65,9 @@ public interface UserService {
      */
     int updateHeaderUrl(int userId, String avatarUrl);
 
-
+    /**
+     * 修改密码
+     */
     Map<String, Object> changePassword(int id, String oldPassword, String newPassword, String confirmPassword);
+
 }

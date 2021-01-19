@@ -76,8 +76,9 @@
                         <a class="nav-link" href="#">最热</a>
                     </li>
                 </ul>
+
                 <button type="button" class="btn btn-primary btn-sm position-absolute rt-0" data-toggle="modal"
-                        data-target="#publishModal">我要发布
+                        data-target="#publishModal" th:if="${loginUser != null}">我要发布
                 </button>
             </div>
             <!-- 弹出框 -->
@@ -140,7 +141,7 @@
                         </h6>
                         <div class="text-muted font-size-12">
                             <u class="mr-3" th:utext="${map.user.username}"></u> 发布于 <b
-                                th:text="${map.post.createTime}"></b>
+                                th:text="${#dates.format(map.post.createTime, 'yyyy-MM-dd HH:mm:ss')}"></b>
                             <ul class="d-inline float-right">
                                 <li class="d-inline ml-2">赞 11</li>
                                 <li class="d-inline ml-2">|</li>
