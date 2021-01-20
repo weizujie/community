@@ -126,7 +126,7 @@ public class LoginController {
         }
 
         // 检查账号和密码
-        int expired = rememberMe ? Constant.REMEMBERME_EXPIRED_SECONDS : Constant.DEFAULT_EXPIRED_SECONDS;
+        int expired = rememberMe ? Constant.REMEMBER_EXPIRED_SECONDS : Constant.DEFAULT_EXPIRED_SECONDS;
         Map<String, Object> result = userService.login(username, password, expired);
         if (result.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", result.get("ticket").toString());
