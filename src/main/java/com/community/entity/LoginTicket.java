@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 登录凭证 实体类（后面会改成 Redis）
+ * 登录凭证（后面会改成 Redis）
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginTicket {
 
+    // 凭证 id
     private int id;
     // 用户 id
     private int userId;

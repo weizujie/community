@@ -6,6 +6,7 @@ import com.community.service.UserService;
 import com.community.utils.Constant;
 import com.google.code.kaptcha.Producer;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -22,19 +23,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * 用户登录注册 前端控制器
- */
 @Controller
 public class LoginController {
 
-    private final UserService userService;
-    private final Producer kaptchaProducer;
+    @Autowired
+    private UserService userService;
 
-    public LoginController(UserService userService, Producer kaptchaProducer) {
-        this.userService = userService;
-        this.kaptchaProducer = kaptchaProducer;
-    }
+    @Autowired
+    private Producer kaptchaProducer;
+
 
     /**
      * 跳转到用户登录页面

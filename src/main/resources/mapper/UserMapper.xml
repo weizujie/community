@@ -6,6 +6,7 @@
         `id`
         , `username`, `password`, `salt`, `email`, `type`, `status`, `activation_code`, `header_url`, `create_time`
     </sql>
+
     <sql id="insertFields">
         `username`
         , `password`, `salt`, `email`, `type`, `status`, `activation_code`, `header_url`, `create_time`
@@ -55,4 +56,5 @@
         SET password = #{password}
         WHERE id = #{id}
     </update>
+    
 </mapper>

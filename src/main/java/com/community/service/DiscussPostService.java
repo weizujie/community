@@ -2,7 +2,6 @@ package com.community.service;
 
 
 import com.community.entity.DiscussPost;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ public interface DiscussPostService {
      */
     List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit);
 
-
     /**
      * 查询帖子的行数
      *
@@ -25,7 +23,6 @@ public interface DiscussPostService {
      * @return 帖子行数
      */
     int selectDiscussPostRows(int userId);
-
 
     /**
      * 发布帖子

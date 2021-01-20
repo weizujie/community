@@ -1,7 +1,6 @@
 package com.community.mapper;
 
 import com.community.entity.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 

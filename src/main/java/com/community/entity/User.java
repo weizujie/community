@@ -7,9 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-/**
- * 用户 实体类
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

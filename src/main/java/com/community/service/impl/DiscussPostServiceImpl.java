@@ -4,6 +4,7 @@ package com.community.service.impl;
 import com.community.entity.DiscussPost;
 import com.community.mapper.DiscussPostMapper;
 import com.community.service.DiscussPostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
@@ -12,11 +13,8 @@ import java.util.List;
 @Service
 public class DiscussPostServiceImpl implements DiscussPostService {
 
-    private final DiscussPostMapper discussPostMapper;
-
-    public DiscussPostServiceImpl(DiscussPostMapper discussPostMapper) {
-        this.discussPostMapper = discussPostMapper;
-    }
+    @Autowired
+    private DiscussPostMapper discussPostMapper;
 
     /**
      * 查询用户帖子列表

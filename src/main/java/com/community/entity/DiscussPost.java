@@ -8,9 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 
-/**
- * 帖子 实体类
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +25,7 @@ public class DiscussPost {
     private int type;
     // 状态  0-正常    1-精华    2-拉黑
     private int status;
-    // 评论数
+    // 评论数（冗余的写在这里，正确做法应该是在 comment 表里，但效率低）
     private int commentCount;
 
     private double score;

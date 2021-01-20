@@ -7,9 +7,10 @@ import com.community.entity.User;
 import com.community.service.CommentService;
 import com.community.service.DiscussPostService;
 import com.community.service.UserService;
-import com.community.utils.CommonUtil;
 import com.community.utils.Constant;
 import com.community.utils.HostHolder;
+import com.community.vo.ResultVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +21,17 @@ import java.util.*;
 @RequestMapping("/post")
 public class DiscussPostController {
 
-    private final DiscussPostService discussPostService;
-    private final HostHolder hostHolder;
-    private final UserService userService;
-    private final CommentService commentService;
+    @Autowired
+    private DiscussPostService discussPostService;
 
-    public DiscussPostController(DiscussPostService discussPostService, HostHolder hostHolder, UserService userService, CommentService commentService) {
-        this.discussPostService = discussPostService;
-        this.hostHolder = hostHolder;
-        this.userService = userService;
-        this.commentService = commentService;
-    }
+    @Autowired
+    private HostHolder hostHolder;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
 
     /**
      * 发布帖子
@@ -42,18 +42,20 @@ public class DiscussPostController {
     @PostMapping("/add")
     @ResponseBody
     public String addDiscussPost(String title, String content) {
+        // 判断用户是否登录
         User loginUser = hostHolder.getUser();
         if (loginUser == null) {
-            return CommonUtil.getJsonString(-1, "请登录后再操作!");
+            return ResultVo.getJsonString(-1, "请登录后再操作!");
         }
 
+        // 发布帖子
         DiscussPost post = new DiscussPost();
         post.setUserId(loginUser.getId());
         post.setTitle(title);
         post.setContent(content);
         post.setCreateTime(new Date());
         discussPostService.insertDiscussPost(post);
-        return CommonUtil.getJsonString(0, "发布成功!");
+        return ResultVo.getJsonString(0, "发布成功!");
     }
 
     /**
@@ -64,7 +66,7 @@ public class DiscussPostController {
         // 帖子
         DiscussPost post = discussPostService.selectDiscussPostById(id);
         model.addAttribute("post", post);
-        // 作者
+        // 用户
         User user = userService.selectById(post.getUserId());
         model.addAttribute("user", user);
         // 评论（分页）
@@ -82,7 +84,7 @@ public class DiscussPostController {
                 Map<String, Object> commentVo = new HashMap<>();
                 // 评论
                 commentVo.put("comment", comment);
-                // 作者
+                // 用户
                 commentVo.put("user", userService.selectById(comment.getUserId()));
 
                 // 回复列表（不作分页）
@@ -95,7 +97,7 @@ public class DiscussPostController {
                         Map<String, Object> replyVo = new HashMap<>();
                         // 回复
                         replyVo.put("reply", reply);
-                        // 作者
+                        // 用户
                         replyVo.put("user", userService.selectById(reply.getUserId()));
                         // 回复的目标
                         User targetUser = reply.getTargetId() == 0 ? null : userService.selectById(reply.getTargetId());

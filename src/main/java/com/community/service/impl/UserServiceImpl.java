@@ -10,6 +10,7 @@ import com.community.utils.Constant;
 import com.community.utils.HostHolder;
 import com.community.utils.MailClient;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -23,19 +24,22 @@ import java.util.Random;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper userMapper;
-    private final MailClient mailClient;
-    private final TemplateEngine templateEngine;
-    private final LoginTicketMapper loginTicketMapper;
-    private final HostHolder hostHolder;
 
-    public UserServiceImpl(UserMapper userMapper, MailClient mailClient, TemplateEngine templateEngine, LoginTicketMapper loginTicketMapper, HostHolder hostHolder) {
-        this.userMapper = userMapper;
-        this.mailClient = mailClient;
-        this.templateEngine = templateEngine;
-        this.loginTicketMapper = loginTicketMapper;
-        this.hostHolder = hostHolder;
-    }
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private MailClient mailClient;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private HostHolder hostHolder;
+
 
     @Value("${community.path.domain}")
     private String domain;
@@ -50,7 +54,6 @@ public class UserServiceImpl implements UserService {
     public User selectById(int id) {
         return userMapper.selectById(id);
     }
-
 
     /**
      * 根据用户名查询用户

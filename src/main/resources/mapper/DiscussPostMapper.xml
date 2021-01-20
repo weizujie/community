@@ -13,15 +13,8 @@
     </sql>
 
     <select id="selectDiscussPosts" resultType="DiscussPost">
-        SELECT id,
-        user_id,
-        title,
-        content,
-        `type`,
-        status,
-        create_time,
-        comment_count,
-        score
+        SELECT
+        <include refid="selectFields"></include>
         FROM discuss_post
         WHERE status != 2
         <if test="userId != 0">

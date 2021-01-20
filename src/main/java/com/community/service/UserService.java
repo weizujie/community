@@ -1,9 +1,7 @@
 package com.community.service;
 
-import com.community.entity.DiscussPost;
 import com.community.entity.LoginTicket;
 import com.community.entity.User;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -17,7 +15,7 @@ public interface UserService {
     /**
      * 根据用户名查询用户
      */
-    User selectByUsername(@Param("username") String username);
+    User selectByUsername(String username);
 
     /**
      * 根据邮箱查询用户
@@ -33,7 +31,6 @@ public interface UserService {
      * 注册用户
      */
     Map<String, Object> register(User user);
-
 
     /**
      * 修改用户状态

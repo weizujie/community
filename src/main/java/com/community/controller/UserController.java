@@ -6,6 +6,7 @@ import com.community.service.UserService;
 import com.community.utils.CommonUtil;
 import com.community.utils.HostHolder;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +33,12 @@ public class UserController {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    private final UserService userService;
-    private final HostHolder hostHolder;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService, HostHolder hostHolder) {
-        this.userService = userService;
-        this.hostHolder = hostHolder;
-    }
+    @Autowired
+    private HostHolder hostHolder;
+
 
     /**
      * 跳转到用户个人页面

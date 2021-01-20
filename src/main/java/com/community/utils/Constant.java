@@ -17,7 +17,6 @@ public class Constant {
      */
     public static int ACTIVATION_FAILURE = 2;
 
-
     /**
      * 默认状态的登录凭证的超市时间（12小时）
      */
