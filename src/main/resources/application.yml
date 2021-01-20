@@ -1,13 +1,18 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: toor
-  # thymeleaf
   thymeleaf:
     cache: false
-  # MailProperties
+  # 邮件激活配置
   mail:
     host: smtp.qq.com
     port: 465
@@ -21,11 +26,6 @@ spring:
         smtp:
           ssl:
             enable: true
-
-server:
-  port: 8080
-  servlet:
-    context-path: /
 
 mybatis:
   configuration:
