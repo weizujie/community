@@ -60,6 +60,8 @@ public class DiscussPostController {
 
     /**
      * 查询帖子详情
+     * 帖子的回复分为评论：1.对帖子进行评论（comment） 2.对评论进行评论（reply）
+     * 首先展示所有的 comment，再针对每个 comment 展示 reply
      */
     @GetMapping("/detail/{id}")
     public String getDiscussPost(@PathVariable int id, Model model, Page page) {
