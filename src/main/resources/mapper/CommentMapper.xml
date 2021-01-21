@@ -12,7 +12,7 @@
 
     <select id="selectCommentByEntity" resultType="Comment">
         SELECT
-        <include refid="selectFields"></include>
+        <include refid="selectFields"/>
         FROM comment
         WHERE status = 0
         AND entity_type = #{entityType}
@@ -30,7 +30,7 @@
     </select>
 
     <insert id="insertComment" parameterType="Comment" keyProperty="id">
-        INSERT INTO comment(<include refid="insertFields"></include>)
+        INSERT INTO comment(<include refid="insertFields"/>)
         VALUES(#{userId} ,#{entityType},  #{entityId}, #{targetId}, #{content}, #{status}, #{createTime})
     </insert>
 

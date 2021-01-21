@@ -6,17 +6,13 @@ import com.community.entity.User;
 import com.community.service.MessageService;
 import com.community.service.UserService;
 import com.community.utils.HostHolder;
+import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MessageController {
@@ -88,17 +84,60 @@ public class MessageController {
         model.addAttribute("letters", letters);
 
         // 私信目标
+        User target = getLetterTarget(conversationId);
+        model.addAttribute("target", target);
+
+        // 设置消息为已读
+        List<Integer> letterIds = getLetterIds(letterList);
+        if (!letterIds.isEmpty()) {
+            messageService.updateStatus(letterIds);
+        }
+
+        return "site/letter-detail";
+    }
+
+    private User getLetterTarget(String conversationId) {
         String[] ids = conversationId.split("_");
         int id0 = Integer.parseInt(ids[0]);
         int id1 = Integer.parseInt(ids[1]);
         if (hostHolder.getUser().getId() == id0) {
-            User target = userService.selectById(id1);
-            model.addAttribute("target", target);
+            return userService.selectById(id1);
         } else {
-            User target = userService.selectById(id0);
-            model.addAttribute("target", target);
+            return userService.selectById(id0);
         }
-        return "site/letter-detail";
     }
 
+    private List<Integer> getLetterIds(List<Message> letterList) {
+        List<Integer> ids = new ArrayList<>();
+        if (letterList != null) {
+            for (Message message : letterList) {
+                if (hostHolder.getUser().getId() == message.getToId() && message.getStatus() == 0) {
+                    ids.add(message.getId());
+                }
+            }
+        }
+        return ids;
+    }
+
+    @PostMapping("/letter/send")
+    @ResponseBody
+    public String sendLetter(String toName, String content) {
+        User target = userService.selectByUsername(toName);
+        if (target == null) {
+            return ResultVo.getJsonString(-1, "用户目标不存在!");
+        }
+
+        Message message = new Message();
+        message.setFromId(hostHolder.getUser().getId());
+        message.setToId(target.getId());
+        if (message.getFromId() < message.getToId()) {
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        } else {
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+        message.setContent(content);
+        message.setCreateTime(new Date());
+        messageService.insertMessage(message);
+        return ResultVo.getJsonString(0);
+    }
 }

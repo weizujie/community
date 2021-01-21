@@ -5,6 +5,7 @@ import com.community.mapper.MessageMapper;
 import com.community.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -55,4 +56,23 @@ public class MessageServiceImpl implements MessageService {
     public int selectLetterUnreadCount(int userId, String conversationId) {
         return messageMapper.selectLetterUnreadCount(userId, conversationId);
     }
+
+    /**
+     * 新增消息
+     */
+    @Override
+    public int insertMessage(Message message) {
+        // HTML 转义
+        message.setContent(HtmlUtils.htmlEscape(message.getContent()));
+        return messageMapper.insertMessage(message);
+    }
+
+    /**
+     * 修改消息的状态，将所有消息变为已读
+     */
+    @Override
+    public int updateStatus(List<Integer> ids) {
+        return messageMapper.updateStatus(ids, 1);
+    }
+
 }

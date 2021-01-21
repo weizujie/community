@@ -32,4 +32,14 @@ public interface MessageMapper {
      * 如果不拼接则查询所有的未读私信的数量，否则只查询某个用户的未读私信数量
      */
     int selectLetterUnreadCount(int userId, String conversationId);
+
+    /**
+     * 新增消息
+     */
+    int insertMessage(Message message);
+
+    /**
+     * 修改消息的状态，将所有消息变为已读
+     */
+    int updateStatus(List<Integer> ids, int status);
 }
