@@ -39,7 +39,8 @@
                     <div class="text-muted mt-3">
                         发布于 <b th:text="${#dates.format(post.createTime, 'yyyy-MM-dd HH:mm:ss')}"></b>
                         <ul class="d-inline float-right">
-                            <li class="d-inline ml-2"><a href="javascript:;" th:onclick="|like(this, 1, ${post.id});|"
+                            <li class="d-inline ml-2"><a href="javascript:;"
+                                                         th:onclick="|like(this, 1, ${post.id}, ${post.userId});|"
                                                          class="text-primary"><b
                                     th:text="${likeStatus==1?'已赞':'赞'}"></b> <i th:text="${likeCount}"></i></a></li>
                             <li class="d-inline ml-2">|</li>
@@ -66,7 +67,7 @@
             <!-- 回帖列表 -->
             <ul class="list-unstyled mt-4">
                 <li class="media pb-3 pt-3 mb-3 border-bottom" th:each="cvo:${comments}">
-                    <a href="profile.html">
+                    <a th:href="@{|/user/profile/${cvo.user.id}|}">
                         <img th:src="${cvo.user.headerUrl}"
                              class="align-self-start mr-4 rounded-circle user-header" alt="用户头像">
                     </a>
@@ -74,6 +75,7 @@
                         <div class="mt-0">
                             <span class="font-size-12 text-success" th:utext="${cvo.user.username}"></span>
                             <span class="badge badge-secondary float-right floor">
+                                <!-- 楼数 -->
                                 <i th:text="${page.offset + cvoStat.count}"></i>#
                             </span>
                         </div>
@@ -82,7 +84,7 @@
                             <span>发布于 <b th:text="${#dates.format(cvo.comment.createTime, 'yyyy-MM-dd HH:mm:ss')}"></b></span>
                             <ul class="d-inline float-right">
                                 <li class="d-inline ml-2"><a href="javascript:;"
-                                                             th:onclick="|like(this, 2, ${cvo.comment.id});|"
+                                                             th:onclick="|like(this, 2, ${cvo.comment.id}, ${cvo.comment.userId});|"
                                                              class="text-primary"><b
                                         th:text="${cvo.likeStatus==1?'已赞':'赞'}"></b>(<i th:text="${cvo.likeCount}"></i>)</a>
                                 </li>
@@ -108,7 +110,7 @@
                                     <span th:text="${#dates.format(rvo.reply.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
                                     <ul class="d-inline float-right">
                                         <li class="d-inline ml-2"><a href="javascript:;"
-                                                                     th:onclick="|like(this, 2, ${rvo.reply.id});|"
+                                                                     th:onclick="|like(this, 2, ${rvo.reply.id}, ${rvo.reply.userId});|"
                                                                      class="text-primary"><b
                                                 th:text="${rvo.likeStatus==1?'已赞':'赞'}"></b>(<i
                                                 th:text="${rvo.likeCount}"></i>)</a></li>
@@ -177,6 +179,6 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/global.js}"></script>
-<script th:src="@{/js/dicuss.js}"></script>
+<script th:src="@{/js/discuss.js}"></script>
 </body>
 </html>
