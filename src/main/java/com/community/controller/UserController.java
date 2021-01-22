@@ -2,9 +2,11 @@ package com.community.controller;
 
 import com.community.annotation.LoginRequired;
 import com.community.entity.User;
+import com.community.service.FollowService;
 import com.community.service.LikeService;
 import com.community.service.UserService;
 import com.community.utils.CommonUtil;
+import com.community.utils.Constant;
 import com.community.utils.HostHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,8 @@ public class UserController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private FollowService followService;
 
     /**
      * 跳转到用户个人页面
@@ -54,10 +58,23 @@ public class UserController {
         if (user == null) {
             throw new RuntimeException("该用户不存在!");
         }
+        // 用户
         model.addAttribute("user", user);
+        // 点赞数量
         int likeCount = likeService.selectUserLikeCount(userId);
         model.addAttribute("likeCount", likeCount);
-
+        // 关注数量
+        long followeeCount = followService.selectFolloweeCount(userId, Constant.ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+        // 粉丝数量
+        long followerCount = followService.selectFollowerCount(Constant.ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount", followerCount);
+        // 当前用户是否已关注当前页面上的用户
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) {
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_USER, userId);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
         return "site/profile";
     }
 
