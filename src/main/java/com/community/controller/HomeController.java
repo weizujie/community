@@ -5,7 +5,10 @@ import com.community.entity.DiscussPost;
 import com.community.entity.Page;
 import com.community.entity.User;
 import com.community.service.DiscussPostService;
+import com.community.service.LikeService;
 import com.community.service.UserService;
+import com.community.utils.CommonUtil;
+import com.community.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +28,8 @@ public class HomeController {
     @Autowired
     private DiscussPostService discussPostService;
 
+    @Autowired
+    private LikeService likeService;
 
     /**
      * 社区首页，展示贴子列表
@@ -48,6 +53,11 @@ public class HomeController {
             map.put("post", post);
             User user = userService.selectById(post.getUserId());
             map.put("user", user);
+
+            // 点赞数量
+            long likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_POST, post.getId());
+            map.put("likeCount", likeCount);
+
             list.add(map);
         }
         model.addAttribute("discussPosts", list);

@@ -26,6 +26,11 @@ spring:
         smtp:
           ssl:
             enable: true
+  # redis
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
 
 mybatis:
   configuration:
@@ -41,3 +46,4 @@ community:
   path:
     domain: http://localhost:8080
     upload: E:/Code/Java/SpringBoot/community/upload
+

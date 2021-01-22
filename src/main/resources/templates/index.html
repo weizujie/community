@@ -144,7 +144,7 @@
                             <u class="mr-3" th:utext="${map.user.username}"></u> 发布于 <b
                                 th:text="${#dates.format(map.post.createTime, 'yyyy-MM-dd HH:mm:ss')}"></b>
                             <ul class="d-inline float-right">
-                                <li class="d-inline ml-2">赞 11</li>
+                                <li class="d-inline ml-2">赞 <span th:text="${map.likeCount}"></span></li>
                                 <li class="d-inline ml-2">|</li>
                                 <li class="d-inline ml-2">回帖 <span th:text="${map.post.commentCount}"></span></li>
                             </ul>
