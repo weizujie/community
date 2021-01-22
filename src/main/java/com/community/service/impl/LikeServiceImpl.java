@@ -14,7 +14,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
+    
     /**
      * 点赞
      */
