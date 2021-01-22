@@ -38,6 +38,7 @@ public class LikeServiceImpl implements LikeService {
                     operations.opsForSet().add(entityLikeKey, userId);
                     operations.opsForValue().increment(userLikeKey);
                 }
+                // 提交事务
                 return operations.exec();
             }
         });
