@@ -1,5 +1,8 @@
 package com.community.service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface FollowService {
 
     /**
@@ -27,4 +30,13 @@ public interface FollowService {
      */
     boolean hasFollowed(int userId, int entityType, int entityId);
 
+    /**
+     * 查询某用户关注的用户
+     */
+    List<Map<String, Object>> selectFolloweeList(int userId, int offset, int limit);
+
+    /**
+     * 查询某用户的粉丝
+     */
+    List<Map<String, Object>> selectFollowerList(int userId, int offset, int limit);
 }

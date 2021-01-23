@@ -30,7 +30,7 @@
             </h6>
             <!-- 作者 -->
             <div class="media pb-3 border-bottom">
-                <a href="#">
+                <a th:href="@{|/user/profile/${user.id}|}">
                     <img th:src="${user.headerUrl}"
                          class="align-self-start mr-4 rounded-circle user-header" alt="用户头像">
                 </a>

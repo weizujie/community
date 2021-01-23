@@ -49,8 +49,9 @@
                                      th:text="${#dates.format(user.createTime, 'yyyy-MM-dd HH:mm:ss')}"></i></span>
                     </div>
                     <div class="text-muted mt-3 mb-5">
-                        <span>关注了 <a class="text-primary" href="#" th:text="${followeeCount}"></a> 人</span>
-                        <span class="ml-4">关注者 <a class="text-primary" href="#"
+                        <span>关注了 <a class="text-primary" th:href="@{|/followees/${user.id}|}"
+                                     th:text="${followeeCount}"></a> 人</span>
+                        <span class="ml-4">关注者 <a class="text-primary" th:href="@{|/followers/${user.id}|}"
                                                   th:text="${followerCount}"></a> 人</span>
                         <span class="ml-4">获得了 <i class="text-danger" th:text="${likeCount}"></i> 个赞</span>
                     </div>

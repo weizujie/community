@@ -21,6 +21,13 @@ public class LikeController {
     @Autowired
     private HostHolder hostHolder;
 
+    /**
+     * 点赞(异步请求)
+     *
+     * @param entityType   实体类型(用户/帖子/回复)
+     * @param entityId     实体 id
+     * @param entityUserId 实体用户 id
+     */
     @PostMapping("/like")
     @ResponseBody
     public String like(int entityType, int entityId, int entityUserId) {
