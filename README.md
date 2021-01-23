@@ -2,8 +2,13 @@
 
 > 仿牛客网的一个项目。
 
+## 项目演示
 
-## 项目预览
+- 演示地址：http://42.192.146.160:8080/
+- 账号密码：admin/admin    test/test
+
+
+## 运行效果
 
 ### 首页
 ![首页](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210122180027532.png)
