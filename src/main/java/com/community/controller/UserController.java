@@ -1,14 +1,17 @@
 package com.community.controller;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
 import com.community.annotation.LoginRequired;
 import com.community.entity.User;
 import com.community.service.FollowService;
 import com.community.service.LikeService;
 import com.community.service.UserService;
-import com.community.utils.CommonUtil;
 import com.community.utils.Constant;
 import com.community.utils.HostHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,25 +19,27 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.UUID;
 
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    @Value("${community.path.upload}")
-    private String uploadPath;
+    @Value("${aliyun.oss.file.endpoint}")
+    private String endPoint;
 
-    @Value("${community.path.domain}")
-    private String domain;
+    @Value("${aliyun.oss.file.keyid}")
+    private String keyId;
 
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
+    @Value("${aliyun.oss.file.keysecret}")
+    private String keySecret;
+
+    @Value("${aliyun.oss.file.bucketname}")
+    private String bucketName;
 
     @Autowired
     private UserService userService;
@@ -101,54 +106,40 @@ public class UserController {
 
         String filename = headerUrl.getOriginalFilename();
         String suffix = filename.substring(filename.lastIndexOf("."));
+
         if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "文件格式不正确!");
             return "site/setting";
         }
 
-        // 生成随机文件名
-        filename = CommonUtil.generateUUID() + suffix;
-        // 确定文件存放的路径
-        File dest = new File(uploadPath + "/" + filename);
-        System.out.println(dest);
         try {
-            headerUrl.transferTo(dest);
+            // 创建 oss 实例
+            OSS ossClient = new OSSClientBuilder().build(endPoint, keyId, keySecret);
+            // 上传文件输入流
+            InputStream inputStream = headerUrl.getInputStream();
+            // 获取文件的名称
+            String fileName = headerUrl.getOriginalFilename();
+            // 在文件名称添加随机的唯一的值
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            fileName = uuid + "_" + fileName;
+            // 把文件按照日期分类   2020/12/28/xxx.jpg
+            String datePath = new DateTime().toString("yyyy/MM/dd");
+            fileName = datePath + "/" + fileName;
+            // 调用 oss 方法实现文件上传
+            // 第一个参数：bucket 名称; 第二个参数：上传到 oss 的路径和名称；第三个参数：上传文件的输入流
+            ossClient.putObject(bucketName, fileName, inputStream);
+            // 更新当前用户头像的访问路径
+            User user = hostHolder.getUser();
+            // http://localhost:8080/user/xx.jpg
+            String url = "https://" + bucketName + "." + endPoint + "/" + fileName;
+            userService.updateHeaderUrl(user.getId(), url);
+            // 关闭 ossClient
+            ossClient.shutdown();
+            return "redirect:/index";
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new RuntimeException("文件上传失败，服务器发生异常!");
         }
-
-        // 更新当前用户头像的访问路径
-        User user = hostHolder.getUser();
-        // http://localhost:8080/user/xx.jpg
-        String url = domain + contextPath + "user/upload/" + filename;
-        userService.updateHeaderUrl(user.getId(), url);
-        return "redirect:/index";
-    }
-
-    /**
-     * 展示头像
-     */
-    @GetMapping("/upload/{filename}")
-    public void showAvatar(@PathVariable String filename, HttpServletResponse response) {
-        // 服务器存放路径
-        filename = uploadPath + "/" + filename;
-        // 文件后缀
-        String suffix = filename.substring(filename.lastIndexOf("."));
-        // 响应图片
-        response.setContentType("image/" + suffix);
-        try {
-            ServletOutputStream outputStream = response.getOutputStream();
-            FileInputStream fileInputStream = new FileInputStream(filename);
-            byte[] buffer = new byte[1024];
-            int b = 0;
-            while ((b = fileInputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, b);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     /**

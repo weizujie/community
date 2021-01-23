@@ -47,3 +47,13 @@ community:
     domain: http://localhost:8080
     upload: E:/Code/Java/SpringBoot/community/upload
 
+# aliyun OSS
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-shenzhen.aliyuncs.com
+      keyid: LTAI4GAK8Ei4gy9MTqMHohyP
+      keysecret: 4t859qr4Vy6HmkXDvjbGLUy7SiVbmc
+      # bucket可以在控制台创建，也可以使用 java 代码创建
+      bucketname: weizujie
+
