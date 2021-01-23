@@ -23,3 +23,11 @@
 ### 私信列表
 
 ![私信列表](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210122180429898.png)
+
+### 关注列表
+
+![关注列表](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210123100146107.png)
+
+### 粉丝列表
+
+![粉丝列表](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210123100114699.png)
