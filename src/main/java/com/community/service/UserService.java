@@ -50,7 +50,7 @@ public interface UserService {
     /**
      * 用户退出
      */
-    int logout(String ticket);
+    void logout(String ticket);
 
     /**
      * 根据 ticket 查询用户

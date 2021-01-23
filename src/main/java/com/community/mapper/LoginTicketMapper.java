@@ -2,6 +2,7 @@ package com.community.mapper;
 
 import com.community.entity.LoginTicket;
 
+@Deprecated
 public interface LoginTicketMapper {
 
     /**
