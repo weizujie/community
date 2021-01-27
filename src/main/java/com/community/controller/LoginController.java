@@ -7,6 +7,7 @@ import com.community.utils.CommonUtil;
 import com.community.utils.Constant;
 import com.community.utils.RedisKeyUtil;
 import com.google.code.kaptcha.Producer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Controller
 public class LoginController {
 
@@ -134,6 +136,7 @@ public class LoginController {
         // 判断验证码
         String kaptcha = null;
         if (StringUtils.isNoneBlank(kaptchaOwner)) {
+            // 从 redis 取验证码
             String kaptchaKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
             kaptcha = (String) redisTemplate.opsForValue().get(kaptchaKey);
         }

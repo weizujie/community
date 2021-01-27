@@ -2,8 +2,11 @@ package com.community.utils;
 
 public class RedisKeyUtil {
 
+    // 分隔符
     private static final String SPLIT = ":";
+    // 点赞实体
     private static final String PREFIX_ENTITY_LIKE = "like:entity";
+    // 点赞用户
     private static final String PREFIX_USER_LIKE = "like:user";
     // 关注的目标
     private static final String PREFIX_FOLLOWEE = "followee";

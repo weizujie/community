@@ -1,17 +1,17 @@
 server:
   port: 8080
   servlet:
-    context-path:
+    context-path: /
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://42.192.146.160:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
-    password: 35a97f418878838a
+    password: toor
   # thymeleaf
   thymeleaf:
-    cache: true
+    cache: false
 
   # email
   mail:
@@ -32,7 +32,7 @@ spring:
 
 mybatis:
   configuration:
-    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 驼峰转换
     map-underscore-to-camel-case: true
     # 自动生成 id
     use-generated-keys: true
@@ -42,7 +42,7 @@ mybatis:
 # community
 community:
   path:
-    domain: http://42.192.146.160:8080
+    domain: http://localhost:8080
 
 
 # aliyun OSS

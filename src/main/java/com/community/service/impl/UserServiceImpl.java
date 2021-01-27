@@ -141,10 +141,12 @@ public class UserServiceImpl implements UserService {
         // 发送激活邮件
         Context context = new Context();
         context.setVariable("email", user.getEmail());
-        // http://localhost:8080/activation/user_id/code
-        String url = domain + contextPath + "activation/" + user.getId() + "/" + user.getActivationCode();
+        String url = domain + contextPath + "/activation/" + user.getId() + "/" + user.getActivationCode();
         context.setVariable("url", url);
-        String content = templateEngine.process("/mail/activation", context);
+
+        // String content = templateEngine.process("/mail/activation", context);
+        // 部署到服务器上，如果是 /mail/activation 的话会报错，把 mail 前面的 / 去掉就好了,我也不知道为什么
+        String content = templateEngine.process("mail/activation", context);
         mailClient.sendMail(user.getEmail(), "Community-激活账号", content);
 
         return map;
