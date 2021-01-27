@@ -21,7 +21,7 @@ body {
 }
 
 header .navbar-brand {
-    background: url('http://static.nowcoder.com/images/res/logo/logo-v3.png') no-repeat;
+    background: url('#') no-repeat;
     background-size: 147px 42px;
     width: 147px;
     height: 42px;

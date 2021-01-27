@@ -69,4 +69,5 @@ public class HomeController {
     public String toErrorPage() {
         return "error/500";
     }
+
 }

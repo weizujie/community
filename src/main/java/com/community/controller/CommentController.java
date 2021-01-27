@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.Comment;
 import com.community.service.CommentService;
 import com.community.utils.HostHolder;
@@ -27,6 +28,7 @@ public class CommentController {
      * @param discussPostId 帖子 id
      * @param comment       评论/回复
      */
+    @LoginRequired
     @PostMapping("/add/{discussPostId}")
     public String addComment(@PathVariable int discussPostId, Comment comment) {
         comment.setUserId(hostHolder.getUser().getId());

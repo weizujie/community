@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.Comment;
 import com.community.entity.DiscussPost;
 import com.community.entity.Page;
@@ -45,6 +46,7 @@ public class DiscussPostController {
      */
     @PostMapping("/add")
     @ResponseBody
+    @LoginRequired
     public String addDiscussPost(String title, String content) {
         // 判断用户是否登录
         User loginUser = hostHolder.getUser();

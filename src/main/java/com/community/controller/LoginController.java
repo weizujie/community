@@ -1,6 +1,7 @@
 package com.community.controller;
 
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.User;
 import com.community.service.UserService;
 import com.community.utils.CommonUtil;
@@ -22,7 +23,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
@@ -165,6 +165,7 @@ public class LoginController {
     /**
      * 用户退出
      */
+    @LoginRequired
     @GetMapping("/logout")
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);

@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.User;
 import com.community.service.LikeService;
 import com.community.utils.HostHolder;
@@ -30,6 +31,7 @@ public class LikeController {
      */
     @PostMapping("/like")
     @ResponseBody
+    @LoginRequired
     public String like(int entityType, int entityId, int entityUserId) {
         User curUser = hostHolder.getUser();
         // 点赞

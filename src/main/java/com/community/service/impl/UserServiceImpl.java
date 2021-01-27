@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +46,6 @@ public class UserServiceImpl implements UserService {
 
     @Value("${community.path.domain}")
     private String domain;
-
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
 
     /**
      * 根据用户 id 查询用户
@@ -134,20 +132,18 @@ public class UserServiceImpl implements UserService {
         user.setType(0);
         user.setStatus(0);
         user.setActivationCode(CommonUtil.generateUUID());
-        user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png", new Random().nextInt(1000)));
+        user.setHeaderUrl("https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/avatar.png");
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
 
         // 发送激活邮件
         Context context = new Context();
         context.setVariable("email", user.getEmail());
-        String url = domain + contextPath + "/activation/" + user.getId() + "/" + user.getActivationCode();
+        // http://localhost:8080/activation/153/ajdaejfsiufhsfbsef
+        String url = domain + "/activation/" + user.getId() + "/" + user.getActivationCode();
         context.setVariable("url", url);
-
-        // String content = templateEngine.process("/mail/activation", context);
-        // 部署到服务器上，如果是 /mail/activation 的话会报错，把 mail 前面的 / 去掉就好了,我也不知道为什么
         String content = templateEngine.process("mail/activation", context);
-        mailClient.sendMail(user.getEmail(), "Community-激活账号", content);
+        mailClient.sendMail(user.getEmail(), "激活账号", content);
 
         return map;
     }

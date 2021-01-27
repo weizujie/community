@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.Page;
 import com.community.entity.User;
 import com.community.service.FollowService;
@@ -35,8 +36,8 @@ public class FollowController {
      */
     @PostMapping("/follow")
     @ResponseBody
+    @LoginRequired
     public String follow(int entityType, int entityId) {
-        // TODO:用户未登录时的处理：拦截器拦截
         User curUser = hostHolder.getUser();
         followService.follow(curUser.getId(), entityType, entityId);
         return ResultVo.getJsonString(0, "已关注");
@@ -47,8 +48,8 @@ public class FollowController {
      */
     @PostMapping("/unfollow")
     @ResponseBody
+    @LoginRequired
     public String unfollow(int entityType, int entityId) {
-        // TODO:用户未登录时的处理：拦截器拦截
         User curUser = hostHolder.getUser();
         followService.unfollow(curUser.getId(), entityType, entityId);
         return ResultVo.getJsonString(0, "已取消关注");

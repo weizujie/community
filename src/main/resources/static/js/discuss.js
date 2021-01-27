@@ -8,7 +8,7 @@ function like(btn, entityType, entityId, entityUserId) {
                 $(btn).children("i").text(data.likeCount);
                 $(btn).children("b").text(data.likeStatus === 1 ? '已赞' : '赞');
             } else {
-                alert(data.message);
+                alert(data.msg);
             }
         }
     );

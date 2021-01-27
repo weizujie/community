@@ -1,5 +1,6 @@
 package com.community.controller;
 
+import com.community.annotation.LoginRequired;
 import com.community.entity.Message;
 import com.community.entity.Page;
 import com.community.entity.User;
@@ -10,7 +11,10 @@ import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
@@ -30,6 +34,7 @@ public class MessageController {
     /**
      * 私信列表
      */
+    @LoginRequired
     @GetMapping("/letter/list")
     public String getLetterList(Model model, Page page) {
         User curUser = hostHolder.getUser();
@@ -63,6 +68,7 @@ public class MessageController {
     }
 
 
+    @LoginRequired
     @GetMapping("/letter/detail/{conversationId}")
     public String getLetterDetail(@PathVariable String conversationId, Page page, Model model) {
         // 分页信息
@@ -121,6 +127,7 @@ public class MessageController {
 
     @PostMapping("/letter/send")
     @ResponseBody
+    @LoginRequired
     public String sendLetter(String toName, String content) {
         User target = userService.selectByUsername(toName);
         if (target == null) {

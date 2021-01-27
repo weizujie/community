@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png"/>
+    <link rel="icon" th:href="@{/img/icon.png}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/discuss-detail.css}"/>
-    <title>Community-帖子详情</title>
+    <title>帖子详情</title>
 </head>
 <body>
 <div class="nk-container">
@@ -127,7 +127,6 @@
                                                 <input type="hidden" name="targetId" th:value="${rvo.user.id}">
                                                 <input type="text" class="input-size" name="content"
                                                        th:placeholder="|回复${rvo.user.username}|"/>
-
                                             </div>
                                             <div class="text-right mt-2">
                                                 <button type="submit" class="btn btn-primary btn-sm" onclick="#">&nbsp;&nbsp;回&nbsp;&nbsp;复&nbsp;&nbsp;</button>
@@ -163,10 +162,10 @@
                     <a name="replyform"></a>
                     <input type="hidden" name="entityType" value="1">
                     <input type="hidden" name="entityId" th:value="${post.id }">
-                    <textarea placeholder="在这里畅所欲言你的看法吧!" name="content"></textarea>
+                    <textarea placeholder="在这里畅所欲言你的看法吧!" id="content" name="content"></textarea>
                 </p>
                 <p class="text-right">
-                    <button type="submit" class="btn btn-primary btn-sm">&nbsp;&nbsp;回&nbsp;&nbsp;帖&nbsp;&nbsp;</button>
+                    <button type="submit" class="btn btn-primary btn-sm" id="publishBtn">&nbsp;&nbsp;回&nbsp;&nbsp;帖&nbsp;&nbsp;</button>
                 </p>
             </form>
         </div>
