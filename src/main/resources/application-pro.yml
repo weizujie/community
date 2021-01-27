@@ -6,18 +6,18 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://42.192.146.160:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 35a97f418878838a
+    url: jdbc:mysql://ip:port/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: <your username>
+    password: <your password>
   # thymeleaf
   thymeleaf:
     cache: true
 
   # email
   mail:
-    host: smtp.163.com
-    username: byojiaoxianz7@163.com
-    password: CWZOYWRFPKLOZKHK
+    host: smtp.163.com # smtp.qq.com
+    username: <your email>
+    password: <your password>
     default-encoding: UTF-8
     properties:
       mail:
@@ -42,16 +42,16 @@ mybatis:
 # community
 community:
   path:
-    domain: http://42.192.146.160:8080
+    domain: http://ip:port
 
 
 # aliyun OSS
 aliyun:
   oss:
     file:
-      endpoint: oss-cn-shenzhen.aliyuncs.com
-      keyid: LTAI4GAK8Ei4gy9MTqMHohyP
-      keysecret: 4t859qr4Vy6HmkXDvjbGLUy7SiVbmc
-      # bucket可以在控制台创建，也可以使用 java 代码创建
-      bucketname: weizujie
+      endpoint: <your endpoint>
+      keyid: <your keyid>
+      keysecret: <your keysecret>
+      # bucket可以在控制台创建
+      bucketname: <your bucketname>
 
