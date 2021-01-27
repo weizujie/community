@@ -10,7 +10,7 @@ import com.community.service.DiscussPostService;
 import com.community.service.LikeService;
 import com.community.service.UserService;
 import com.community.utils.Constant;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class DiscussPostController {
     private DiscussPostService discussPostService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     @Autowired
     private UserService userService;
@@ -49,7 +49,7 @@ public class DiscussPostController {
     @LoginRequired
     public String addDiscussPost(String title, String content) {
         // 判断用户是否登录
-        User loginUser = hostHolder.getUser();
+        User loginUser = userThreadLocal.getUser();
         if (loginUser == null) {
             return ResultVo.getJsonString(-1, "请登录后再操作!");
         }
@@ -81,7 +81,7 @@ public class DiscussPostController {
         long likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_POST, id);
         model.addAttribute("likeCount", likeCount);
         // 点赞状态
-        int likeStatus = hostHolder.getUser() == null ? 0 : likeService.selectEntityLikeStatus(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_POST, id);
+        int likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_POST, id);
         model.addAttribute("likeStatus", likeStatus);
 
         // 评论（分页）
@@ -105,7 +105,7 @@ public class DiscussPostController {
                 likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeCount", likeCount);
                 // 点赞状态
-                likeStatus = hostHolder.getUser() == null ? 0 : likeService.selectEntityLikeStatus(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, comment.getId());
+                likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeStatus", likeStatus);
                 // 回复列表（不作分页）
                 List<Comment> replyList = commentService.selectCommentByEntity(Constant.ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
@@ -126,7 +126,7 @@ public class DiscussPostController {
                         likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeCount", likeCount);
                         // 点赞状态
-                        likeStatus = hostHolder.getUser() == null ? 0 : likeService.selectEntityLikeStatus(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, reply.getId());
+                        likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeStatus", likeStatus);
 
                         replyVoList.add(replyVo);

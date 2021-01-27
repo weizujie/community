@@ -1,3 +1,4 @@
+
 function like(btn, entityType, entityId, entityUserId) {
     $.post(
         "/like",

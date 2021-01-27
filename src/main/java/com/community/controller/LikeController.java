@@ -3,7 +3,7 @@ package com.community.controller;
 import com.community.annotation.LoginRequired;
 import com.community.entity.User;
 import com.community.service.LikeService;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class LikeController {
     private LikeService likeService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     /**
      * 点赞(异步请求)
@@ -33,7 +33,7 @@ public class LikeController {
     @ResponseBody
     @LoginRequired
     public String like(int entityType, int entityId, int entityUserId) {
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         // 点赞
         likeService.like(curUser.getId(), entityType, entityId, entityUserId);
         // 数量

@@ -14,11 +14,9 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService {
     private LoginTicketMapper loginTicketMapper;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -253,7 +251,7 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> changePassword(int id, String oldPassword, String newPassword, String confirmPassword) {
         Map<String, Object> map = new HashMap<>();
         // 获取当前登录用户
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         // 密码判断
         if (StringUtils.isBlank(oldPassword)) {
             map.put("OldPasswordMessage", "原密码不能为空!");

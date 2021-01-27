@@ -3,7 +3,7 @@ package com.community.controller;
 import com.community.annotation.LoginRequired;
 import com.community.entity.Comment;
 import com.community.service.CommentService;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ public class CommentController {
     private CommentService commentService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     /**
      * 增加评论/回复
@@ -31,7 +31,7 @@ public class CommentController {
     @LoginRequired
     @PostMapping("/add/{discussPostId}")
     public String addComment(@PathVariable int discussPostId, Comment comment) {
-        comment.setUserId(hostHolder.getUser().getId());
+        comment.setUserId(userThreadLocal.getUser().getId());
         comment.setStatus(0);
         comment.setCreateTime(new Date());
 

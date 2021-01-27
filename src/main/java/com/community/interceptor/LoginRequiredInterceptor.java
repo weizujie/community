@@ -1,7 +1,7 @@
 package com.community.interceptor;
 
 import com.community.annotation.LoginRequired;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 public class LoginRequiredInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,7 +30,7 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
             Method method = handlerMethod.getMethod();
             LoginRequired loginRequired = method.getAnnotation(LoginRequired.class);
             // 判断用户是否登录
-            if (loginRequired != null && hostHolder.getUser() == null) {
+            if (loginRequired != null && userThreadLocal.getUser() == null) {
                 // 如果没有登录，跳转到登陆页面
                 response.sendRedirect(request.getContextPath() + "/login");
                 return false;

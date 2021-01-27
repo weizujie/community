@@ -6,7 +6,7 @@ import com.community.entity.Page;
 import com.community.entity.User;
 import com.community.service.MessageService;
 import com.community.service.UserService;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class MessageController {
     private UserService userService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
 
     /**
@@ -37,7 +37,7 @@ public class MessageController {
     @LoginRequired
     @GetMapping("/letter/list")
     public String getLetterList(Model model, Page page) {
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         // 分页信息
         page.setLimit(5);
         page.setPath("/letter/list");
@@ -106,7 +106,7 @@ public class MessageController {
         String[] ids = conversationId.split("_");
         int id0 = Integer.parseInt(ids[0]);
         int id1 = Integer.parseInt(ids[1]);
-        if (hostHolder.getUser().getId() == id0) {
+        if (userThreadLocal.getUser().getId() == id0) {
             return userService.selectById(id1);
         } else {
             return userService.selectById(id0);
@@ -117,7 +117,7 @@ public class MessageController {
         List<Integer> ids = new ArrayList<>();
         if (letterList != null) {
             for (Message message : letterList) {
-                if (hostHolder.getUser().getId() == message.getToId() && message.getStatus() == 0) {
+                if (userThreadLocal.getUser().getId() == message.getToId() && message.getStatus() == 0) {
                     ids.add(message.getId());
                 }
             }
@@ -135,7 +135,7 @@ public class MessageController {
         }
 
         Message message = new Message();
-        message.setFromId(hostHolder.getUser().getId());
+        message.setFromId(userThreadLocal.getUser().getId());
         message.setToId(target.getId());
         if (message.getFromId() < message.getToId()) {
             message.setConversationId(message.getFromId() + "_" + message.getToId());

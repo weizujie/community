@@ -8,7 +8,7 @@ import com.community.service.FollowService;
 import com.community.service.LikeService;
 import com.community.service.UserService;
 import com.community.utils.Constant;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -45,7 +45,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     @Autowired
     private LikeService likeService;
@@ -76,8 +76,8 @@ public class UserController {
         model.addAttribute("followerCount", followerCount);
         // 当前用户是否已关注当前页面上的用户
         boolean hasFollowed = false;
-        if (hostHolder.getUser() != null) {
-            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_USER, userId);
+        if (userThreadLocal.getUser() != null) {
+            hasFollowed = followService.hasFollowed(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_USER, userId);
         }
         model.addAttribute("hasFollowed", hasFollowed);
         return "site/profile";
@@ -129,7 +129,7 @@ public class UserController {
             // 第一个参数：bucket 名称; 第二个参数：上传到 oss 的路径和名称；第三个参数：上传文件的输入流
             ossClient.putObject(bucketName, fileName, inputStream);
             // 更新当前用户头像的访问路径
-            User user = hostHolder.getUser();
+            User user = userThreadLocal.getUser();
             // http://localhost:8080/user/xx.jpg
             String url = "https://" + bucketName + "." + endPoint + "/" + fileName;
             userService.updateHeaderUrl(user.getId(), url);
@@ -149,7 +149,7 @@ public class UserController {
     @PostMapping("/password")
     public String changePassword(Model model, String oldPassword, String newPassword, String confirmPassword, @CookieValue String ticket) {
         // 当前登录用户
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         Map<String, Object> map = userService.changePassword(curUser.getId(), oldPassword, newPassword, confirmPassword);
         // map 为空则修改成功
         if (map.isEmpty()) {

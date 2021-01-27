@@ -6,7 +6,7 @@ import com.community.entity.User;
 import com.community.service.FollowService;
 import com.community.service.UserService;
 import com.community.utils.Constant;
-import com.community.utils.HostHolder;
+import com.community.utils.UserThreadLocal;
 import com.community.vo.ResultVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +26,7 @@ public class FollowController {
     private FollowService followService;
 
     @Autowired
-    private HostHolder hostHolder;
+    private UserThreadLocal userThreadLocal;
 
     @Autowired
     private UserService userService;
@@ -38,7 +38,7 @@ public class FollowController {
     @ResponseBody
     @LoginRequired
     public String follow(int entityType, int entityId) {
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         followService.follow(curUser.getId(), entityType, entityId);
         return ResultVo.getJsonString(0, "已关注");
     }
@@ -50,7 +50,7 @@ public class FollowController {
     @ResponseBody
     @LoginRequired
     public String unfollow(int entityType, int entityId) {
-        User curUser = hostHolder.getUser();
+        User curUser = userThreadLocal.getUser();
         followService.unfollow(curUser.getId(), entityType, entityId);
         return ResultVo.getJsonString(0, "已取消关注");
     }
@@ -105,10 +105,10 @@ public class FollowController {
     }
 
     private boolean hasFollowed(int userId) {
-        if (hostHolder.getUser() == null) {
+        if (userThreadLocal.getUser() == null) {
             return false;
         }
-        return followService.hasFollowed(hostHolder.getUser().getId(), Constant.ENTITY_TYPE_USER, userId);
+        return followService.hasFollowed(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_USER, userId);
     }
 
 }

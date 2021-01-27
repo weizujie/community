@@ -27,7 +27,7 @@ public class DiscussPost {
     private int status;
     // 评论数（冗余的写在这里，正确做法应该是在 comment 表里，但效率低）
     private int commentCount;
-
+    // 分数 用于计算热贴排行
     private double score;
     // 创建时间
     private Date createTime;
