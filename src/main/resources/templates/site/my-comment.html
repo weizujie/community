@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" th:href="@{/img/icon.png}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/global.css}"/>
+    <title>个人主页</title>
+</head>
+<body>
+<div class="nk-container">
+    <!-- 头部 -->
+    <header class="bg-dark sticky-top" th:replace="index::header"></header>
+
+    <!-- 内容 -->
+    <div class="main">
+        <div class="container">
+            <!-- 选项 -->
+            <div class="position-relative">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{|/user/profile/${user.id}|}">个人信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/mypost}">我的帖子</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/user/myreply}">我的回复</a>
+                    </li>
+                </ul>
+                <a th:href="@{|/user/profile/${user.id}|}" class="text-muted position-absolute rt-0">返回个人主页&gt;</a>
+            </div>
+            <!-- 我的回复 -->
+            <div class="mt-4">
+                <h6><b class="square"></b> 回复的帖子(379)</h6>
+                <ul class="list-unstyled mt-4 pl-3 pr-3">
+                    <li class="border-bottom pb-3 mt-4">
+                        <div class="font-size-16 text-info">
+                            <a href="#" class="text-info">备战春招，面试刷题跟他复习，一个月全搞定！</a>
+                        </div>
+                        <div class="mt-1 font-size-14">
+                            顶顶顶!
+                        </div>
+                        <div class="text-right font-size-12 text-muted">
+                            回复于 <b>2019-04-15 10:10:10</b>
+                        </div>
+                    </li>
+                </ul>
+                <!-- 分页 -->
+                <!--                <nav class="mt-5" th:replace="index::pagination"></nav>-->
+            </div>
+        </div>
+    </div>
+
+    <!-- 尾部 -->
+    <footer class="bg-dark" th:replace="index::footer"></footer>
+</div>
+
+<script th:src="@{/js/jquery-3.1.0.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/global.js}"></script>
+</body>
+</html>
