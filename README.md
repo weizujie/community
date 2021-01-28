@@ -1,7 +1,12 @@
 # Community 
 
+<<<<<<< HEAD
 > 基于 SpringBoot + Mybatis + Redis 开发的问答类社区。 
 
+=======
+> :bulb: 基于SpringBoot + Mybatis + Redis 开发的一个问答社区，实现了基本的登录注册、发帖、评论、点赞、回复等功能。
+ 
+>>>>>>> a3a07d779d7471ff660ffe4f421f5214ab787f40
 
 ## 项目演示
 
@@ -48,9 +53,7 @@
 
 ### Interceptor 的作用?在项目中哪些地方用到?
 
-SpringMVC 中的 Interceptor 拦截器的主要作用是**拦截用户的请求并进行相应的处理**，比如判断用户是否登录。
-
-SpringMVC 中的 Interceptor 拦截请求是通过 HandlerInterceptor 来实现的。HandlerInterceptor  中实现了三个方法：
+SpringMVC 中的 Interceptor 拦截请求是通过 HandlerInterceptor 来实现的。主要作用是**拦截用户的请求并进行相应的处理**，比如判断用户是否登录。HandlerInterceptor  中实现了三个方法：
 
 - preHandle()：在 Controller 中方法调用之前执行，若返回值为 true，则继续执行下一个 handle，否则停止执行
 
@@ -58,4 +61,4 @@ SpringMVC 中的 Interceptor 拦截请求是通过 HandlerInterceptor 来实现�
 
 - afterCompletion()：该方法将在整个请求完成之后，也就是DispatcherServlet渲染了视图执行（前提是 preHandle() 返回 true）
 
->  该项目中，每次请求都会检查 request 中的 login_ticket，把找到的 user 信息存在 ThreadLocal 中，在完成请求的处理后自动释放。
+该项目中，每次请求都会检查 request 中的 login_ticket，把找到的 user 信息存在 ThreadLocal 中，在完成请求的处理后自动释放。
