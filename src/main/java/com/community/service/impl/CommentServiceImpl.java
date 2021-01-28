@@ -71,4 +71,20 @@ public class CommentServiceImpl implements CommentService {
         }
         return rows;
     }
+
+    /**
+     * 根据用户 id 查询评论数量
+     */
+    @Override
+    public int selectCountByUserId(int userId) {
+        return commentMapper.selectCountByUserId(userId);
+    }
+
+    /**
+     * 根据用户 id 查询评论
+     */
+    @Override
+    public List<Comment> selectCommentByUserId(int userId, int offset, int limit) {
+        return commentMapper.selectCommentByUserId(userId, offset, limit);
+    }
 }

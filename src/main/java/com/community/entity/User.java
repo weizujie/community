@@ -13,7 +13,7 @@ import java.util.Date;
 public class User {
 
     // 用户 id
-    private int id;
+    private Integer id;
     // 用户名
     private String username;
     // 密码
@@ -23,9 +23,9 @@ public class User {
     // 邮箱
     private String email;
     // 用户类别   0-普通用户    1-超级管理员    2-版主
-    private int type;
+    private Integer type;
     // 状态      0-未激活      1-已激活
-    private int status;
+    private Integer status;
     // 激活码
     private String activationCode;
     // 头像

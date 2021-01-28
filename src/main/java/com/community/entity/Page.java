@@ -12,39 +12,39 @@ import lombok.NoArgsConstructor;
 public class Page {
 
     // 当前页码
-    private int current = 1;
+    private Integer current = 1;
     // 显示上限
-    private int limit = 10;
+    private Integer limit = 10;
     // 数据总数(用于计算总页数)
-    private int rows;
+    private Integer rows;
     // 查询路径(用于复用分页链接)
     private String path;
 
-    public int getCurrent() {
+    public Integer getCurrent() {
         return current;
     }
 
-    public void setCurrent(int current) {
+    public void setCurrent(Integer current) {
         if (current >= 1) {
             this.current = current;
         }
     }
 
-    public int getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 
-    public void setLimit(int limit) {
+    public void setLimit(Integer limit) {
         if (limit >= 1 && limit <= 100) {
             this.limit = limit;
         }
     }
 
-    public int getRows() {
+    public Integer getRows() {
         return rows;
     }
 
-    public void setRows(int rows) {
+    public void setRows(Integer rows) {
         if (rows >= 0) {
             this.rows = rows;
         }
@@ -61,7 +61,7 @@ public class Page {
     /**
      * 获取当前页的起始行
      */
-    public int getOffset() {
+    public Integer getOffset() {
         // current * limit - limit
         return (current - 1) * limit;
     }
@@ -69,7 +69,7 @@ public class Page {
     /**
      * 获取总页数
      */
-    public int getTotal() {
+    public Integer getTotal() {
         //  rows / limit [+1]
         if (rows % limit == 0) {
             return rows / limit;
@@ -81,8 +81,8 @@ public class Page {
     /**
      * 获取起始页码
      */
-    public int getStart() {
-        int from = current - 2;
+    public Integer getStart() {
+        Integer from = current - 2;
         // from < 1 ? 1 : from
         return Math.max(from, 1);
     }
@@ -90,9 +90,9 @@ public class Page {
     /**
      * 获取结束页码
      */
-    public int getEnd() {
-        int end = current + 2;
-        int total = getTotal();
+    public Integer getEnd() {
+        Integer end = current + 2;
+        Integer total = getTotal();
         // end > total ? total : end
         return Math.min(end, total);
     }

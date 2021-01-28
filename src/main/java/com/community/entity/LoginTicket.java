@@ -15,13 +15,13 @@ import java.util.Date;
 public class LoginTicket {
 
     // 凭证 id
-    private int id;
+    private Integer id;
     // 用户 id
-    private int userId;
+    private Integer userId;
     // 用户凭证
     private String ticket;
     // 状态  0-有效  1-无效
-    private int status;
+    private Integer status;
     // 凭证过期时间
     private Date expired;
 

@@ -45,6 +45,26 @@ public class UserServiceImpl implements UserService {
     @Value("${community.path.domain}")
     private String domain;
 
+    // 1. 先从缓存中查询
+    private User getCache(int userId) {
+        String userKey = RedisKeyUtil.getUserKey(userId);
+        return (User) redisTemplate.opsForValue().get(userKey);
+    }
+
+    // 2. 取不到时初始化缓存数据
+    private User initCache(int userId) {
+        User user = userMapper.selectById(userId);
+        String userKey = RedisKeyUtil.getUserKey(userId);
+        redisTemplate.opsForValue().set(userKey, user, 3600, TimeUnit.SECONDS);
+        return user;
+    }
+
+    // 3. 数据变更时清除缓存数据
+    private void clearCache(int userId) {
+        String userKey = RedisKeyUtil.getUserKey(userId);
+        redisTemplate.delete(userKey);
+    }
+
     /**
      * 根据用户 id 查询用户
      */
@@ -275,25 +295,5 @@ public class UserServiceImpl implements UserService {
         newPassword = CommonUtil.md5(newPassword + curUser.getSalt());
         userMapper.changePassword(curUser.getId(), newPassword);
         return map;
-    }
-
-    // 1. 先从缓存中查询
-    private User getCache(int userId) {
-        String userKey = RedisKeyUtil.getUserKey(userId);
-        return (User) redisTemplate.opsForValue().get(userKey);
-    }
-
-    // 2. 取不到时初始化缓存数据
-    private User initCache(int userId) {
-        User user = userMapper.selectById(userId);
-        String userKey = RedisKeyUtil.getUserKey(userId);
-        redisTemplate.opsForValue().set(userKey, user, 3600, TimeUnit.SECONDS);
-        return user;
-    }
-
-    // 3. 数据变更时清除缓存数据
-    private void clearCache(int userId) {
-        String userKey = RedisKeyUtil.getUserKey(userId);
-        redisTemplate.delete(userKey);
     }
 }

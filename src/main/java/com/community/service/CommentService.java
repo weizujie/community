@@ -5,7 +5,7 @@ import com.community.entity.Comment;
 import java.util.List;
 
 public interface CommentService {
-    
+
     /**
      * 根据实体查询评论
      *
@@ -29,4 +29,11 @@ public interface CommentService {
      */
     int insertComment(Comment comment);
 
+    /**
+     * 根据用户 id 查询评论数
+     */
+    int selectCountByUserId(int userId);
+
+
+    List<Comment> selectCommentByUserId(int userId, int offset, int limit);
 }

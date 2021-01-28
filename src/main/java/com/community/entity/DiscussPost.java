@@ -14,21 +14,21 @@ import java.util.Date;
 public class DiscussPost {
 
     // 帖子 id
-    private int id;
+    private Integer id;
     // 用户 id
-    private int userId;
+    private Integer userId;
     // 标题
     private String title;
     // 内容
     private String content;
     // 分类  0-普通    1-置顶
-    private int type;
+    private Integer type;
     // 状态  0-正常    1-精华    2-拉黑
-    private int status;
+    private Integer status;
     // 评论数（冗余的写在这里，正确做法应该是在 comment 表里，但效率低）
-    private int commentCount;
+    private Integer commentCount;
     // 分数 用于计算热贴排行
-    private double score;
+    private Double score;
     // 创建时间
     private Date createTime;
 }

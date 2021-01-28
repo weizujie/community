@@ -26,7 +26,7 @@
                         <a class="nav-link active" th:href="@{/user/mypost}">我的帖子</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="my-reply.html">我的回复</a>
+                        <a class="nav-link" th:href="@{/user/mycomment}">我的评论</a>
                     </li>
                 </ul>
                 <a th:href="@{|/user/profile/${user.id}|}" class="text-muted position-absolute rt-0">返回个人主页&gt;</a>
@@ -37,9 +37,9 @@
                 <ul class="list-unstyled mt-4 pl-3 pr-3">
                     <li class="border-bottom pb-3 mt-4" th:each="map:${discussPosts}">
                         <div class="font-size-16 text-info">
-                            <a th:href="@{|/post/detail/${map.post.id}|}" class="text-info" th:text="${map.post.title}">备战春招，面试刷题跟他复习，一个月全搞定！</a>
+                            <a th:href="@{|/post/detail/${map.post.id}|}" class="text-info" th:utext="${map.post.title}">备战春招，面试刷题跟他复习，一个月全搞定！</a>
                             <span class="float-right font-size-12 text-muted">
-                                赞 <i class="mr-3" th:text="${map.likeCount}"></i> 发布于 <b
+                                赞 <i class="mr-3" th:utext="${map.likeCount}"></i> 发布于 <b
                                     th:text="${#dates.format(map.post.createTime, 'yyyy-MM-dd HH:mm:ss')}"></b>
                             </span>
                         </div>
