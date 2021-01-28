@@ -33,6 +33,7 @@ public class CommentController {
     public String addComment(@PathVariable int discussPostId, Comment comment) {
         comment.setUserId(userThreadLocal.getUser().getId());
         comment.setStatus(0);
+        comment.setTargetId(0);
         comment.setCreateTime(new Date());
 
         commentService.insertComment(comment);

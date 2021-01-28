@@ -58,6 +58,10 @@ public class DiscussPostController {
         DiscussPost post = new DiscussPost();
         post.setUserId(loginUser.getId());
         post.setTitle(title);
+        post.setStatus(0);
+        post.setType(0);
+        post.setScore(0.0);
+        post.setCommentCount(0);
         post.setContent(content);
         post.setCreateTime(new Date());
         discussPostService.insertDiscussPost(post);

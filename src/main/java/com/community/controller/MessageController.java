@@ -117,7 +117,7 @@ public class MessageController {
         List<Integer> ids = new ArrayList<>();
         if (letterList != null) {
             for (Message message : letterList) {
-                if (userThreadLocal.getUser().getId() == message.getToId() && message.getStatus() == 0) {
+                if (userThreadLocal.getUser().getId().equals(message.getToId()) && message.getStatus() == 0) {
                     ids.add(message.getId());
                 }
             }
@@ -143,6 +143,8 @@ public class MessageController {
             message.setConversationId(message.getToId() + "_" + message.getFromId());
         }
         message.setContent(content);
+        // 设置私信默认未读状态
+        message.setStatus(0);
         message.setCreateTime(new Date());
         messageService.insertMessage(message);
         return ResultVo.getJsonString(0);
