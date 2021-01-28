@@ -1,12 +1,14 @@
 # Community 
 
 > 基于 SpringBoot + Mybatis + Redis 开发的问答类社区。 
- 
+
 
 ## 项目演示
 
-- 演示地址：http://42.192.146.160:8080/
-- 账号密码：admin/admin    test/test
+- 演示地址：http://42.192.146.160:8080
+- 账号密码：
+  - admin/admin 
+  - test/test
 
 
 ## 运行效果
@@ -21,6 +23,10 @@
 ### 个人主页
 
 ![个人主页](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210122180108327.png)
+
+### 我的帖子
+
+![我的帖子](https://weizujie.oss-cn-shenzhen.aliyuncs.com/img/image-20210128143205727.png)
 
 ### 发送私信且未读
 
