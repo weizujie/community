@@ -1,8 +1,10 @@
 package com.community.service;
 
+import com.community.entity.DiscussPost;
 import com.community.entity.LoginTicket;
 import com.community.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -66,5 +68,4 @@ public interface UserService {
      * 修改密码
      */
     Map<String, Object> changePassword(int id, String oldPassword, String newPassword, String confirmPassword);
-
 }

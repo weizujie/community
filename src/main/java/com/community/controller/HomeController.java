@@ -42,6 +42,7 @@ public class HomeController {
      */
     @GetMapping({"/index", "/"})
     public String index(Model model, Page page) {
+        // 设置分页信息
         page.setRows(discussPostService.selectDiscussPostRows(0));
         page.setPath("/index");
 

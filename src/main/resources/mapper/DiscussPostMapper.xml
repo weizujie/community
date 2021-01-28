@@ -50,4 +50,13 @@
         SET comment_count = #{commentCount}
         WHERE id = #{id}
     </update>
+
+    <select id="selectCountByUserId" resultType="int">
+        SELECT COUNT(id)
+        FROM discuss_post
+        WHERE STATUS != 2
+	    AND user_id = #{userId}
+    </select>
+
+
 </mapper>

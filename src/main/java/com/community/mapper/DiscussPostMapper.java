@@ -44,4 +44,11 @@ public interface DiscussPostMapper {
      * @param commentCount 评论数量
      */
     int updateCommentCount(int id, int commentCount);
+
+    /**
+     * 查询某用户帖子数量
+     *
+     * @param userId 用户 id
+     */
+    int selectCountByUserId(int userId);
 }

@@ -74,4 +74,14 @@ public class DiscussPostServiceImpl implements DiscussPostService {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 
+    /**
+     * 查询某用户帖子数量
+     *
+     * @param userId 用户 id
+     */
+    @Override
+    public int selectCountByUserId(int userId) {
+        return discussPostMapper.selectCountByUserId(userId);
+    }
+
 }

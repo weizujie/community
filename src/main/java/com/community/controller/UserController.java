@@ -3,7 +3,10 @@ package com.community.controller;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.community.annotation.LoginRequired;
+import com.community.entity.DiscussPost;
+import com.community.entity.Page;
 import com.community.entity.User;
+import com.community.service.DiscussPostService;
 import com.community.service.FollowService;
 import com.community.service.LikeService;
 import com.community.service.UserService;
@@ -21,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -52,6 +54,9 @@ public class UserController {
 
     @Autowired
     private FollowService followService;
+
+    @Autowired
+    private DiscussPostService discussPostService;
 
     /**
      * 跳转到用户个人页面
@@ -90,6 +95,42 @@ public class UserController {
     @GetMapping("/setting")
     public String toSetting() {
         return "site/setting";
+    }
+
+    /**
+     * 跳转到我的帖子页面
+     */
+    @LoginRequired
+    @GetMapping("/mypost")
+    public String toMyPost(Model model, Page page) {
+        // 获取当前登录用户
+        User curUser = userThreadLocal.getUser();
+        model.addAttribute("user", curUser);
+
+        // 设置分页信息
+        page.setLimit(5);
+        page.setRows(discussPostService.selectDiscussPostRows(curUser.getId()));
+        page.setPath("/user/mypost");
+
+
+        // 查询某用户发布的帖子
+        List<DiscussPost> discussPosts = discussPostService.selectDiscussPosts(curUser.getId(), page.getOffset(), page.getLimit());
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (DiscussPost post : discussPosts) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("post", post);
+            // 点赞数量
+            long likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_POST, post.getId());
+            map.put("likeCount", likeCount);
+
+            list.add(map);
+        }
+        // 帖子数量
+        int postCount = discussPostService.selectCountByUserId(curUser.getId());
+        model.addAttribute("postCount", postCount);
+        model.addAttribute("discussPosts", list);
+
+        return "site/my-post";
     }
 
     /**
