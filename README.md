@@ -1,12 +1,6 @@
 # Community 
 
-<<<<<<< HEAD
-> 基于 SpringBoot + Mybatis + Redis 开发的问答类社区。 
-
-=======
 > :bulb: 基于SpringBoot + Mybatis + Redis 开发的一个问答社区，实现了基本的登录注册、发帖、评论、点赞、回复等功能。
- 
->>>>>>> a3a07d779d7471ff660ffe4f421f5214ab787f40
 
 ## 项目演示
 
