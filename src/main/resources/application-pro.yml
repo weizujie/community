@@ -4,25 +4,23 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://42.192.146.160:3306/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: root
-    password: 35a97f418878838a
-  # thymeleaf
+    url: jdbc:mysql://server:port/community?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username:
+    password:
+
   thymeleaf:
     cache: true
 
-  # email
   mail:
-    host: smtp.163.com
-    username: byojiaoxianz7@163.com
-    password: CWZOYWRFPKLOZKHK
+    host: smtp.163.com  # smtp.qq.com
+    username:
+    password:
     default-encoding: UTF-8
     properties:
       mail:
         smtp:
           ssl:
             enable: true
-  # redis
   redis:
     database: 11
     host: localhost
@@ -31,24 +29,19 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-    # 自动生成 id
     use-generated-keys: true
   mapper-locations: classpath:mapper/*Mapper.xml
   type-aliases-package: com.community.entity
 
-# community
 community:
   path:
-    domain: http://42.192.146.160:8080
+    domain: http://server:8080
 
-
-# aliyun OSS
 aliyun:
   oss:
     file:
-      endpoint: oss-cn-shenzhen.aliyuncs.com
-      keyid: LTAI4GAK8Ei4gy9MTqMHohyP
-      keysecret: 4t859qr4Vy6HmkXDvjbGLUy7SiVbmc
-      # bucket可以在控制台创建，也可以使用 java 代码创建
-      bucketname: weizujie
+      endpoint:
+      keyid:
+      keysecret:
+      bucketname:
 
