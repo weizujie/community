@@ -13,9 +13,9 @@ spring:
 
   # email
   mail:
-    host: smtp.163.com
-    username: byojiaoxianz7@163.com
-    password: CWZOYWRFPKLOZKHK
+    host:
+    username:
+    password:
     default-encoding: UTF-8
     properties:
       mail:
@@ -47,9 +47,9 @@ community:
 aliyun:
   oss:
     file:
-      endpoint: oss-cn-shenzhen.aliyuncs.com
-      keyid: LTAI4GAK8Ei4gy9MTqMHohyP
-      keysecret: 4t859qr4Vy6HmkXDvjbGLUy7SiVbmc
+      endpoint:
+      keyid:
+      keysecret:
       # bucket可以在控制台创建，也可以使用 java 代码创建
-      bucketname: weizujie
+      bucketname:
 
