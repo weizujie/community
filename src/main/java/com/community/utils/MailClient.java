@@ -1,5 +1,6 @@
 package com.community.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,11 +15,8 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class MailClient {
 
-    private final JavaMailSender mailSender;
-
-    public MailClient(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
     private String from;

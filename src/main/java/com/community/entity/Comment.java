@@ -1,14 +1,12 @@
 package com.community.entity;
 
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@TableName("comment")
 public class Comment {
 
     // 评论 id

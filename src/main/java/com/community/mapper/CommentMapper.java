@@ -1,10 +1,11 @@
 package com.community.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.community.entity.Comment;
 
 import java.util.List;
 
-public interface CommentMapper {
+public interface CommentMapper extends BaseMapper<Comment> {
 
     /**
      * 根据实体查询评论

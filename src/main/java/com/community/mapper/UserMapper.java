@@ -1,10 +1,11 @@
 package com.community.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.community.entity.User;
 
 import java.util.Map;
 
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
     /**
      * 根据用户 id 查询用户

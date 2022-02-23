@@ -5,6 +5,7 @@ import com.community.mapper.UserMapper;
 import com.community.service.FollowService;
 import com.community.utils.Constant;
 import com.community.utils.RedisKeyUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
@@ -12,16 +13,22 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+@Slf4j
 @Service
 public class FollowServiceImpl implements FollowService {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private UserMapper userMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private RedisTemplate redisTemplate;
 
     /**
      * 关注

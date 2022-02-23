@@ -2,6 +2,7 @@ package com.community.service.impl;
 
 import com.community.service.LikeService;
 import com.community.utils.RedisKeyUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisOperations;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class LikeServiceImpl implements LikeService {
 

@@ -1,11 +1,12 @@
 package com.community.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.community.entity.DiscussPost;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface DiscussPostMapper {
+public interface DiscussPostMapper extends BaseMapper<DiscussPost> {
 
     /**
      * 查询用户帖子列表
@@ -43,7 +44,7 @@ public interface DiscussPostMapper {
      * @param id           帖子 id
      * @param commentCount 评论数量
      */
-    int updateCommentCount(int id, int commentCount);
+    int updateCommentCount(int id, Long commentCount);
 
     /**
      * 查询某用户帖子数量

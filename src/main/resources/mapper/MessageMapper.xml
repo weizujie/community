@@ -12,7 +12,7 @@
         , to_id, conversation_id, content, status, create_time
     </sql>
 
-    <select id="selectConversations" resultType="Message">
+    <select id="selectConversations" resultType="com.community.entity.Message">
         SELECT
         <include refid="selectFields"/>
         FROM message WHERE id in (
@@ -40,7 +40,7 @@
              ) AS m
     </select>
 
-    <select id="selectLetters" resultType="Message">
+    <select id="selectLetters" resultType="com.community.entity.Message">
         SELECT
         <include refid="selectFields"/>
         FROM message
@@ -69,7 +69,7 @@
         </if>
     </select>
 
-    <insert id="insertMessage" parameterType="Message" keyProperty="id">
+    <insert id="insertMessage" parameterType="com.community.entity.Message" keyProperty="id">
         INSERT INTO message(<include refid="insertFields"/>)
         VALUES(#{fromId}, #{toId}, #{conversationId}, #{content}, #{status}, #{createTime})
     </insert>

@@ -1,19 +1,23 @@
 package com.community.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.community.entity.Comment;
 import com.community.mapper.CommentMapper;
 import com.community.mapper.DiscussPostMapper;
 import com.community.service.CommentService;
 import com.community.utils.Constant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @Service
 public class CommentServiceImpl implements CommentService {
 
@@ -43,8 +47,12 @@ public class CommentServiceImpl implements CommentService {
      * @param entityId   实体 id
      */
     @Override
-    public int selectCountByEntity(int entityType, int entityId) {
-        return commentMapper.selectCountByEntity(entityType, entityId);
+    public Long selectCount(Integer entityType, Integer entityId) {
+        LambdaQueryWrapper<Comment> wrapper = Wrappers.lambdaQuery(Comment.class)
+                .eq(Comment::getEntityType, entityType)
+                .eq(Comment::getEntityId, entityId)
+                .eq(Comment::getStatus, 0);
+        return commentMapper.selectCount(wrapper);
     }
 
     /**
@@ -54,22 +62,28 @@ public class CommentServiceImpl implements CommentService {
      * propagation = Propagation.REQUIRED：事务的传播。支持当前事务，如果当前没有事务，就新建一个事务
      */
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    public int insertComment(Comment comment) {
-        if (comment == null) {
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+    public Boolean insertComment(Comment comment) {
+        if (Objects.isNull(comment)) {
             throw new IllegalArgumentException("参数不能为空!");
         }
+
         // HTML 字符转义
         comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));
+
         // 新增评论
-        int rows = commentMapper.insertComment(comment);
+        int row = commentMapper.insert(comment);
+        if (row < 1) {
+            throw new IllegalArgumentException("新增评论失败");
+        }
 
         // 更新帖子评论数量
         if (comment.getEntityType() == Constant.ENTITY_TYPE_POST) {
-            int count = commentMapper.selectCountByEntity(Constant.ENTITY_TYPE_POST, comment.getEntityId());
+            Long count = selectCount(Constant.ENTITY_TYPE_POST, comment.getEntityId());
             discussPostMapper.updateCommentCount(comment.getEntityId(), count);
         }
-        return rows;
+
+        return Boolean.TRUE;
     }
 
     /**

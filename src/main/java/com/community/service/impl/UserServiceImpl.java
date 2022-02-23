@@ -2,10 +2,14 @@ package com.community.service.impl;
 
 import com.community.entity.LoginTicket;
 import com.community.entity.User;
-import com.community.mapper.LoginTicketMapper;
 import com.community.mapper.UserMapper;
 import com.community.service.UserService;
-import com.community.utils.*;
+import com.community.utils.CommonUtil;
+import com.community.utils.Constant;
+import com.community.utils.MailClient;
+import com.community.utils.RedisKeyUtil;
+import com.community.utils.UserThreadLocal;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-
 
     @Autowired
     private UserMapper userMapper;
@@ -33,14 +37,10 @@ public class UserServiceImpl implements UserService {
     private TemplateEngine templateEngine;
 
     @Autowired
-    private LoginTicketMapper loginTicketMapper;
-
-    @Autowired
     private UserThreadLocal userThreadLocal;
 
     @Autowired
     private RedisTemplate redisTemplate;
-
 
     @Value("${community.path.domain}")
     private String domain;
@@ -70,7 +70,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User selectById(int id) {
-        // return userMapper.selectById(id);
         User user = getCache(id);
         if (user == null) {
             user = initCache(id);
@@ -116,34 +115,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
+
         // 空值判断
         if (user == null) {
             throw new IllegalArgumentException("参数不能为空!");
         }
+
         if (StringUtils.isBlank(user.getUsername())) {
             map.put("UsernameMessage", "账号不能为空!");
             return map;
         }
+
         if (StringUtils.isBlank(user.getPassword())) {
             map.put("PasswordMessage", "密码不能为空!");
             return map;
         }
+
         if (StringUtils.isBlank(user.getEmail())) {
             map.put("EmailMessage", "邮箱不能为空!");
             return map;
         }
+
         // 验证账号
         User dbUser = userMapper.selectByUsername(user.getUsername());
         if (dbUser != null) {
             map.put("UsernameMessage", "该账号已存在!");
             return map;
         }
+
         // 验证邮箱
         dbUser = userMapper.selectByEmail(user.getEmail());
         if (dbUser != null) {
             map.put("EmailMessage", "该邮箱已被注册!");
             return map;
         }
+
         // 注册用户
         user.setSalt(CommonUtil.generateUUID().substring(0, 5));
         user.setPassword(CommonUtil.md5(user.getPassword() + user.getSalt()));
@@ -195,8 +201,13 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> map = new HashMap<>();
 
         // 空值判断
-        if (StringUtils.isBlank(username)) map.put("UsernameMessage", "账号不能为空!");
-        if (StringUtils.isBlank(password)) map.put("PasswordMessage", "密码不能为空!");
+        if (StringUtils.isBlank(username)) {
+            map.put("UsernameMessage", "账号不能为空!");
+        }
+
+        if (StringUtils.isBlank(password)) {
+            map.put("PasswordMessage", "密码不能为空!");
+        }
 
         // 账号验证
         User dbUser = userMapper.selectByUsername(username);
@@ -248,7 +259,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public LoginTicket selectByTicket(String ticket) {
-        // return loginTicketMapper.selectByTicket(ticket);
         String ticketKey = RedisKeyUtil.getTicketKey(ticket);
         return (LoginTicket) redisTemplate.opsForValue().get(ticketKey);
     }

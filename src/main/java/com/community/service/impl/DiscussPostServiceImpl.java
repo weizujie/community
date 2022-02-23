@@ -4,12 +4,14 @@ package com.community.service.impl;
 import com.community.entity.DiscussPost;
 import com.community.mapper.DiscussPostMapper;
 import com.community.service.DiscussPostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class DiscussPostServiceImpl implements DiscussPostService {
 
@@ -70,7 +72,7 @@ public class DiscussPostServiceImpl implements DiscussPostService {
      * @param commentCount 评论数量
      */
     @Override
-    public int updateCommentCount(int id, int commentCount) {
+    public int updateCommentCount(int id, Long commentCount) {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 

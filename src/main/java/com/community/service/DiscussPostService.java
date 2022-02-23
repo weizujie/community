@@ -40,7 +40,7 @@ public interface DiscussPostService {
      * @param id           帖子 id
      * @param commentCount 评论数量
      */
-    int updateCommentCount(int id, int commentCount);
+    int updateCommentCount(int id, Long commentCount);
 
     /**
      * 查询某用户的帖子数量

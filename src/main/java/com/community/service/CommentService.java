@@ -22,12 +22,12 @@ public interface CommentService {
      * @param entityType 实体类型 0-帖子  1-评论
      * @param entityId   实体 id
      */
-    int selectCountByEntity(int entityType, int entityId);
+    Long selectCount(Integer entityType, Integer entityId);
 
     /**
      * 增加评论
      */
-    int insertComment(Comment comment);
+    Boolean insertComment(Comment comment);
 
     /**
      * 根据用户 id 查询评论数

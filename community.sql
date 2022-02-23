@@ -54,20 +54,6 @@ CREATE TABLE `discuss_post`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 297 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for login_ticket
--- ----------------------------
-DROP TABLE IF EXISTS `login_ticket`;
-CREATE TABLE `login_ticket`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `user_id` int(0) NOT NULL,
-  `ticket` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `status` int(0) NULL DEFAULT 0 COMMENT '0-有效; 1-无效;',
-  `expired` timestamp(0) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `index_ticket`(`ticket`(20)) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for message
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;

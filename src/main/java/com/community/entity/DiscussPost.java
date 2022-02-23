@@ -1,16 +1,13 @@
 package com.community.entity;
 
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@TableName("discuss_post")
 public class DiscussPost {
 
     // 帖子 id

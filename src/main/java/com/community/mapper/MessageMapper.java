@@ -1,10 +1,11 @@
 package com.community.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.community.entity.Message;
 
 import java.util.List;
 
-public interface MessageMapper {
+public interface MessageMapper extends BaseMapper<Message> {
 
     /**
      * 查询当前用户的会话列表，针对每个会话返回一条最新的私信

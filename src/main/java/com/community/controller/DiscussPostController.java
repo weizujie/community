@@ -78,12 +78,15 @@ public class DiscussPostController {
         // 帖子
         DiscussPost post = discussPostService.selectDiscussPostById(id);
         model.addAttribute("post", post);
+
         // 用户
         User user = userService.selectById(post.getUserId());
         model.addAttribute("user", user);
+
         // 点赞数量
         long likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_POST, id);
         model.addAttribute("likeCount", likeCount);
+
         // 点赞状态
         int likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_POST, id);
         model.addAttribute("likeStatus", likeStatus);
@@ -95,40 +98,52 @@ public class DiscussPostController {
 
         // 评论列表
         List<Comment> commentList = commentService.selectCommentByEntity(Constant.ENTITY_TYPE_POST, post.getId(), page.getOffset(), page.getLimit());
+
         // 评论Vo列表
         List<Map<String, Object>> commitVoList = new ArrayList<>();
         if (commentList != null) {
             for (Comment comment : commentList) {
                 // 评论Vo
                 Map<String, Object> commentVo = new HashMap<>();
+
                 // 评论
                 commentVo.put("comment", comment);
+
                 // 用户
                 commentVo.put("user", userService.selectById(comment.getUserId()));
+
                 // 点赞数量
                 likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeCount", likeCount);
+
                 // 点赞状态
                 likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeStatus", likeStatus);
+
                 // 回复列表（不作分页）
                 List<Comment> replyList = commentService.selectCommentByEntity(Constant.ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
+
                 // 回复Vo列表
                 List<Map<String, Object>> replyVoList = new ArrayList<>();
                 if (replyList != null) {
                     for (Comment reply : replyList) {
                         // 回复Vo
                         Map<String, Object> replyVo = new HashMap<>();
+
                         // 回复
                         replyVo.put("reply", reply);
+
                         // 用户
                         replyVo.put("user", userService.selectById(reply.getUserId()));
+
                         // 回复的目标
                         User targetUser = reply.getTargetId() == 0 ? null : userService.selectById(reply.getTargetId());
                         replyVo.put("target", targetUser);
+
                         // 点赞数量
                         likeCount = likeService.selectEntityLikeCount(Constant.ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeCount", likeCount);
+
                         // 点赞状态
                         likeStatus = userThreadLocal.getUser() == null ? 0 : likeService.selectEntityLikeStatus(userThreadLocal.getUser().getId(), Constant.ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeStatus", likeStatus);
@@ -136,14 +151,17 @@ public class DiscussPostController {
                         replyVoList.add(replyVo);
                     }
                 }
+
                 commentVo.put("replys", replyVoList);
+
                 // 回复数量
-                int replyCount = commentService.selectCountByEntity(Constant.ENTITY_TYPE_COMMENT, comment.getId());
+                Long replyCount = commentService.selectCount(Constant.ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("replyCount", replyCount);
 
                 commitVoList.add(commentVo);
             }
         }
+
         model.addAttribute("comments", commitVoList);
         return "site/discuss-detail";
     }

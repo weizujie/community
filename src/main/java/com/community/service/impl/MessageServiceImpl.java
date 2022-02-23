@@ -3,12 +3,14 @@ package com.community.service.impl;
 import com.community.entity.Message;
 import com.community.mapper.MessageMapper;
 import com.community.service.MessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class MessageServiceImpl implements MessageService {
 
